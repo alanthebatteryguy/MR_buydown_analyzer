@@ -14,7 +14,7 @@ def handle_nlu_query(query: str) -> str:
     Database schema:
     - fred_data (date, value, series)
     - mbs_prices (date, coupon_rate, price)
-    - daily_roi (date, coupon_rate, price, roi, breakeven_months)
+    - daily_roi (date, original_rate, buydown_rate, roi, breakeven_months)
     
     Return ONLY the SQL query without explanations.
     """

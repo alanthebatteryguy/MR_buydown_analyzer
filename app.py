@@ -16,16 +16,26 @@ def dashboard():
     return render_template('dashboard.html', 
                          rates=fred_data[fred_data['series'] == '30yr_fixed_rate'])
 
-@app.route('/api/roi/<float:loan_amount>/<float:rate>')
-def get_roi(loan_amount, rate):
-    # Placeholder for actual price data retrieval
-    price_data = {5.0: 102.5, 5.5: 101.75}  # Example data
+def get_latest_date():
+    engine = create_engine('sqlite:///mbs_data.db')
+    with engine.connect() as conn:
+        result = conn.execute(text("SELECT MAX(date) FROM mbs_prices"))
+        return result.fetchone()[0]
+
+@app.route('/api/roi/<float:loan_amount>/<float:original_rate>/<float:buydown_rate>')
+def get_roi(loan_amount, original_rate, buydown_rate):
+    latest_date = get_latest_date()
+    if not latest_date:
+        return jsonify({"error": "No MBS data available"}), 404
+    price_data = get_mbs_prices_for_date(latest_date)
+    if original_rate not in price_data or buydown_rate not in price_data:
+        return jsonify({"error": "Requested rates not available"}), 400
     result = calculate_roi(
         loan_amount=loan_amount,
-        original_rate=5.0,  # Example base rate
-        buydown_rate=rate,
+        original_rate=original_rate,
+        buydown_rate=buydown_rate,
         price_data=price_data,
-        date=pd.Timestamp.now().strftime('%Y-%m-%d')
+        date=latest_date
     )
     return jsonify(result)
 

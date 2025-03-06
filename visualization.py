@@ -15,12 +15,15 @@ def plot_mbs_prices(coupon_rates: list):
     plt.title('MBS Price Trends by Coupon Rate')
     return save_plot(plt)
 
-def plot_roi_trends():
+def plot_roi_trends(original_rate=None, buydown_rate=None):
     engine = create_engine('sqlite:///mbs_data.db')
-    df = pd.read_sql(
-        "SELECT date, AVG(roi) as avg_roi FROM daily_roi GROUP BY date",
-        engine
-    )
+    query = "SELECT date, AVG(roi) as avg_roi FROM daily_roi"
+    params = {}
+    if original_rate and buydown_rate:
+        query += " WHERE original_rate = :original_rate AND buydown_rate = :buydown_rate"
+        params = {'original_rate': original_rate, 'buydown_rate': buydown_rate}
+    query += " GROUP BY date"
+    df = pd.read_sql(query, engine, params=params)
     
     plt.figure(figsize=(12, 6))
     sns.lineplot(data=df, x='date', y='avg_roi')

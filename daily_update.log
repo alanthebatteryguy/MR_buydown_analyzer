@@ -1,0 +1,187 @@
+2025-03-06 13:31:39,360 - __main__ - INFO - Processing update for 2025-02-28
+2025-03-06 13:31:48,993 - __main__ - ERROR - Unexpected error: No MBS data found after 20 business days
+Traceback (most recent call last):
+  File "/Users/alanknudson/MR_buydown_analyzer/daily_update.py", line 64, in process_update
+    df = get_nyfed_mbs_data(trade_date)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alanknudson/MR_buydown_analyzer/data_ingestion.py", line 109, in get_nyfed_mbs_data
+    raise Exception(f"No MBS data found after {attempts} business days")
+Exception: No MBS data found after 20 business days
+2025-03-06 13:31:48,997 - __main__ - INFO - Update completed with exit code: 5
+2025-03-06 13:33:39,861 - __main__ - INFO - Processing update for 2025-02-04
+2025-03-06 13:33:42,535 - __main__ - WARNING - Process interrupted by user
+2025-03-06 13:46:10,153 - __main__ - INFO - Processing update for 2025-02-04
+2025-03-06 13:46:17,912 - __main__ - ERROR - Unexpected error: No MBS data found after 20 business days
+Traceback (most recent call last):
+  File "/Users/alanknudson/MR_buydown_analyzer/daily_update.py", line 70, in process_update
+    df = get_nyfed_mbs_data(trade_date)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alanknudson/MR_buydown_analyzer/data_ingestion.py", line 109, in get_nyfed_mbs_data
+    raise Exception(f"No MBS data found after {attempts} business days")
+Exception: No MBS data found after 20 business days
+2025-03-06 13:46:17,914 - __main__ - INFO - Update completed with exit code: 5
+2025-03-06 13:49:15,699 - __main__ - INFO - Processing update for 2025-02-04
+2025-03-06 13:49:23,243 - __main__ - ERROR - Unexpected error: No MBS data found after 20 business days
+Traceback (most recent call last):
+  File "/Users/alanknudson/MR_buydown_analyzer/daily_update.py", line 70, in process_update
+    df = get_nyfed_mbs_data(trade_date)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alanknudson/MR_buydown_analyzer/data_ingestion.py", line 109, in get_nyfed_mbs_data
+    raise Exception(f"No MBS data found after {attempts} business days")
+Exception: No MBS data found after 20 business days
+2025-03-06 13:49:23,245 - __main__ - INFO - Update completed with exit code: 5
+2025-03-06 13:52:38,352 - __main__ - INFO - Processing update for 2025-02-04
+2025-03-06 13:52:47,132 - __main__ - ERROR - Unexpected error: No MBS data found after 20 business days
+Traceback (most recent call last):
+  File "/Users/alanknudson/MR_buydown_analyzer/daily_update.py", line 70, in process_update
+    df = get_nyfed_mbs_data(trade_date)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alanknudson/MR_buydown_analyzer/data_ingestion.py", line 116, in get_nyfed_mbs_data
+    raise Exception(f"No MBS data found after {attempts} business days")
+Exception: No MBS data found after 20 business days
+2025-03-06 13:52:47,132 - __main__ - INFO - Update completed with exit code: 5
+2025-03-06 13:53:33,372 - __main__ - INFO - Processing update for 2025-02-04
+2025-03-06 13:53:33,378 - __main__ - ERROR - Unexpected error: Missing optional dependency 'tabulate'.  Use pip or conda to install tabulate.
+Traceback (most recent call last):
+  File "/Users/alanknudson/MR_buydown_analyzer/venv/lib/python3.11/site-packages/pandas/compat/_optional.py", line 135, in import_optional_dependency
+    module = importlib.import_module(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1140, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'tabulate'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/alanknudson/MR_buydown_analyzer/daily_update.py", line 81, in process_update
+    anomalies = ai_validate_anomalies(df)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alanknudson/MR_buydown_analyzer/data_ingestion.py", line 221, in ai_validate_anomalies
+    {anomalies.to_markdown(index=False)}
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alanknudson/MR_buydown_analyzer/venv/lib/python3.11/site-packages/pandas/util/_decorators.py", line 333, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alanknudson/MR_buydown_analyzer/venv/lib/python3.11/site-packages/pandas/core/frame.py", line 2983, in to_markdown
+    tabulate = import_optional_dependency("tabulate")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alanknudson/MR_buydown_analyzer/venv/lib/python3.11/site-packages/pandas/compat/_optional.py", line 138, in import_optional_dependency
+    raise ImportError(msg)
+ImportError: Missing optional dependency 'tabulate'.  Use pip or conda to install tabulate.
+2025-03-06 13:53:33,381 - __main__ - INFO - Update completed with exit code: 5
+2025-03-06 13:54:09,085 - __main__ - INFO - Processing update for 2025-02-04
+2025-03-06 13:54:27,819 - __main__ - ERROR - Unexpected error: (sqlite3.OperationalError) near "?": syntax error
+[SQL: DELETE FROM mbs_prices WHERE date = ? AND coupon_rate IN ?]
+[parameters: (datetime.date(2025, 2, 4), (3.0, 3.5, 4.0, 4.5, 5.0))]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Traceback (most recent call last):
+  File "/Users/alanknudson/MR_buydown_analyzer/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/alanknudson/MR_buydown_analyzer/venv/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: near "?": syntax error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/alanknudson/MR_buydown_analyzer/daily_update.py", line 87, in process_update
+    store_data(anomalies['valid'])
+  File "/Users/alanknudson/MR_buydown_analyzer/data_ingestion.py", line 175, in store_data
+    conn.execute(
+  File "/Users/alanknudson/MR_buydown_analyzer/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1416, in execute
+    return meth(
+           ^^^^^
+  File "/Users/alanknudson/MR_buydown_analyzer/venv/lib/python3.11/site-packages/sqlalchemy/sql/elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alanknudson/MR_buydown_analyzer/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1638, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alanknudson/MR_buydown_analyzer/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1843, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alanknudson/MR_buydown_analyzer/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1983, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/Users/alanknudson/MR_buydown_analyzer/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 2352, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Users/alanknudson/MR_buydown_analyzer/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/alanknudson/MR_buydown_analyzer/venv/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) near "?": syntax error
+[SQL: DELETE FROM mbs_prices WHERE date = ? AND coupon_rate IN ?]
+[parameters: (datetime.date(2025, 2, 4), (3.0, 3.5, 4.0, 4.5, 5.0))]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-03-06 13:54:27,823 - __main__ - INFO - Update completed with exit code: 5
+2025-03-06 13:55:10,905 - __main__ - INFO - Processing update for 2025-02-04
+2025-03-06 13:55:31,388 - __main__ - ERROR - Unexpected error: (sqlite3.ProgrammingError) Incorrect number of bindings supplied. The current statement uses 6, and there are 1 supplied.
+[SQL: DELETE FROM mbs_prices WHERE date = ? AND coupon_rate IN (?,?,?,?,?)]
+[parameters: (datetime.date(2025, 2, 4),)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "/Users/alanknudson/MR_buydown_analyzer/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/alanknudson/MR_buydown_analyzer/venv/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.ProgrammingError: Incorrect number of bindings supplied. The current statement uses 6, and there are 1 supplied.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/alanknudson/MR_buydown_analyzer/daily_update.py", line 87, in process_update
+    store_data(anomalies['valid'])
+  File "/Users/alanknudson/MR_buydown_analyzer/data_ingestion.py", line 180, in store_data
+    conn.execute(query, params)
+  File "/Users/alanknudson/MR_buydown_analyzer/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1416, in execute
+    return meth(
+           ^^^^^
+  File "/Users/alanknudson/MR_buydown_analyzer/venv/lib/python3.11/site-packages/sqlalchemy/sql/elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alanknudson/MR_buydown_analyzer/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1638, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alanknudson/MR_buydown_analyzer/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1843, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alanknudson/MR_buydown_analyzer/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1983, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/Users/alanknudson/MR_buydown_analyzer/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 2352, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Users/alanknudson/MR_buydown_analyzer/venv/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/alanknudson/MR_buydown_analyzer/venv/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (sqlite3.ProgrammingError) Incorrect number of bindings supplied. The current statement uses 6, and there are 1 supplied.
+[SQL: DELETE FROM mbs_prices WHERE date = ? AND coupon_rate IN (?,?,?,?,?)]
+[parameters: (datetime.date(2025, 2, 4),)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-03-06 13:55:31,393 - __main__ - INFO - Update completed with exit code: 5
+2025-03-06 13:56:38,611 - __main__ - INFO - Processing update for 2025-02-04
+2025-03-06 13:56:38,625 - __main__ - INFO - Stored 5 validated records
+2025-03-06 13:56:38,626 - __main__ - INFO - Completed ROI calculations
+2025-03-06 13:56:38,626 - __main__ - INFO - Update completed with exit code: 0
+2025-03-06 13:59:23,403 - __main__ - INFO - Processing update for 2025-02-04
+2025-03-06 13:59:31,885 - __main__ - ERROR - Unexpected error: No MBS data found after 20 business days
+Traceback (most recent call last):
+  File "/Users/alanknudson/MR_buydown_analyzer/daily_update.py", line 70, in process_update
+    df = get_nyfed_mbs_data(trade_date)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alanknudson/MR_buydown_analyzer/data_ingestion.py", line 127, in get_nyfed_mbs_data
+    raise Exception(f"No MBS data found after {attempts} business days")
+Exception: No MBS data found after 20 business days
+2025-03-06 13:59:31,886 - __main__ - INFO - Update completed with exit code: 5
+2025-03-06 14:00:28,893 - __main__ - INFO - Processing update for 2025-03-06
+2025-03-06 14:00:36,788 - __main__ - ERROR - Unexpected error: No MBS data found after 20 business days
+Traceback (most recent call last):
+  File "/Users/alanknudson/MR_buydown_analyzer/daily_update.py", line 62, in process_update
+    df = get_nyfed_mbs_data(trade_date)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alanknudson/MR_buydown_analyzer/data_ingestion.py", line 131, in get_nyfed_mbs_data
+    raise Exception(f"No MBS data found after {attempts} business days")
+Exception: No MBS data found after 20 business days
+2025-03-06 14:00:36,789 - __main__ - INFO - Update completed with exit code: 5

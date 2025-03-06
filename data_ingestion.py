@@ -54,32 +54,28 @@ def initialize_schema():
         metadata.create_all(engine)
 
 def get_fred_mbs_data():
-    """PRD 3.1.1 - FRED data integration"""
-    import certifi
-    import os
-    import requests
-    
-    # Set environment variable for SSL certificate path
-    os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
-    
-    # Initialize FRED API client
+    """PRD 3.1.1 - FRED data integration for mortgage rates"""
     fred = Fred(api_key=os.getenv('FRED_API_KEY'))
     
-    # Start with just the mortgage rate series
     series_map = {
-        'MORTGAGE30US': '30yr_fixed_rate'
-        # Temporarily comment out MBS prices until we find correct series ID
-        # 'MBSSELLPRICES': 'mbs_prices'
+        'MORTGAGE30US': '30yr_fixed_rate',
+        # Add treasury yields if needed later
+        # 'GS10': '10yr_treasury_yield'
     }
-    
+
     df = pd.DataFrame()
     for series_id, col_name in series_map.items():
         try:
             data = fred.get_series(series_id)
-            df[col_name] = data
-            print(f"Successfully retrieved {series_id}")
+            temp_df = pd.DataFrame({
+                'date': data.index,
+                'value': data.values,
+                'series': col_name,
+                'coupon_rate': None  # Placeholder for scraped MBS data
+            })
+            df = pd.concat([df, temp_df], ignore_index=True)
         except Exception as e:
-            print(f"Error retrieving {series_id}: {str(e)}")
+            print(f"FRED Error: {str(e)}")
     
     return df
 
@@ -87,55 +83,15 @@ def store_data(df):
     """Store in SQLite with schema validation"""
     engine = create_engine(SQLITE_PATH)
     
-    # Ensure mbs_prices table exists
-    if 'mbs_prices' not in inspect(engine).get_table_names():
-        metadata = MetaData()
-        Table('mbs_prices', metadata,
-            Column('date', Date, primary_key=True),
-            Column('coupon_rate', Float, primary_key=True),
-            Column('price', Float),
-            Column('roi', Float)
-        )
-        metadata.create_all(engine)
+    # Separate FRED data from future scraped MBS prices
+    if 'series' in df.columns:
+        fred_df = df[df['series'].notnull()]
+        fred_df.to_sql('fred_data', engine, if_exists='append', index=False)
     
-    df = detect_anomalies(df)
-    
-    # Calculate ROI metrics before storage
-    try:
-        # Convert index to datetime if needed
-        if not isinstance(df.index, pd.DatetimeIndex):
-            df.index = pd.to_datetime(df.index)
-        
-        # Add date column from index
-        df['date'] = df.index
-        
-        # Ensure coupon_rate column exists
-        if 'coupon_rate' not in df.columns:
-            # Extract from MBSSELLPRICES data
-            df['coupon_rate'] = 5.0  # Default placeholder
-        
-        # Calculate ROI for each row
-        roi_results = []
-        for idx, row in df.iterrows():
-            try:
-                result = calculate_roi(
-                    loan_amount=300000,
-                    original_rate=row['coupon_rate'],
-                    buydown_rate=row['coupon_rate'] - 0.25,
-                    price_data={row['coupon_rate']: row['price']},
-                    date=str(row['date'].date())
-                )
-                roi_results.append(result['roi_percent'])
-            except Exception as e:
-                print(f"ROI calculation error: {e}")
-                roi_results.append(0.0)
-        
-        df['roi'] = roi_results
-    except Exception as e:
-        print(f"Error in ROI calculations: {e}")
-    
-    # Store data
-    df.to_sql('mbs_prices', engine, if_exists='append', index=False)
+    # Existing MBS price handling remains for scraping data
+    if 'coupon_rate' in df.columns and 'price' in df.columns:
+        price_df = df[['date', 'coupon_rate', 'price']]
+        price_df.to_sql('mbs_prices', engine, if_exists='append', index=False)
 
 def ai_validate_anomalies(anomalies):
     """Use Gemini to validate potential anomalies using the building_plan_analyzer pattern"""

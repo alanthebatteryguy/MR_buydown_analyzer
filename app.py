@@ -410,5 +410,42 @@ def get_payback_comparison():
         logger.error(f"Error generating payback comparison: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
+# Add this new route to handle ROI calculations
+# Around line 413
+# Change the function name to avoid the conflict
+@app.route('/api/roi/<int:loan_amount>/<float:current_rate>/<float:buydown_amount>', methods=['GET'])
+def calculate_roi_endpoint(loan_amount, current_rate, buydown_amount):
+    term = request.args.get('term', default=30, type=int)
+    
+    # Calculate buydown rate
+    buydown_rate = current_rate - buydown_amount
+    
+    # Calculate monthly payments
+    original_payment = calculate_monthly_payment(current_rate, loan_amount, term)
+    buydown_payment = calculate_monthly_payment(buydown_rate, loan_amount, term)
+    
+    # Calculate monthly savings
+    monthly_savings = original_payment - buydown_payment
+    
+    # Calculate buydown cost (1 point = 1% of loan amount)
+    buydown_cost = buydown_amount * loan_amount / 100
+    
+    # Calculate breakeven period in months
+    breakeven_months = round(buydown_cost / monthly_savings) if monthly_savings > 0 else float('inf')
+    
+    # Calculate ROI
+    annual_savings = monthly_savings * 12
+    roi = (annual_savings / buydown_cost) * 100 if buydown_cost > 0 else 0
+    
+    return jsonify({
+        'roi': roi,
+        'original_payment': original_payment,
+        'buydown_payment': buydown_payment,
+        'monthly_savings': monthly_savings,
+        'annual_savings': annual_savings,
+        'buydown_cost': buydown_cost,
+        'breakeven_months': breakeven_months
+    })
+
 if __name__ == '__main__':
     app.run(debug=True)

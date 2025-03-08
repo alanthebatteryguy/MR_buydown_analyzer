@@ -128,6 +128,35 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">ROI Analysis</h5>
+                        <div class="d-flex">
+                            <select class="form-select form-select-sm me-2" id="chartType">
+                                <option value="roi_vs_coupon">ROI vs Coupon Rate</option>
+                                <option value="roi_vs_time">ROI vs Time</option>
+                                <option value="cost_effectiveness">Cost Effectiveness</option>
+                            </select>
+                            <select class="form-select form-select-sm me-2 d-none" id="rateSelector">
+                                <!-- Will be populated dynamically -->
+                            </select>
+                            <select class="form-select form-select-sm d-none" id="metricSelector">
+                                <option value="buydown_cost">Buydown Cost</option>
+                                <option value="cost_per_basis_point">Cost per Basis Point</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <img id="roiChart" class="img-fluid" src="" alt="ROI Chart">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
                     <div class="card-header bg-primary text-white">
                         <h5 class="mb-0">Natural Language Query</h5>
                     </div>
@@ -232,6 +261,101 @@
                 }
             }
         });
+        
+        // ROI Chart handling
+        let availableRates = [];
+        
+        // Function to load ROI chart based on selected type
+        async function loadRoiChart() {
+            const chartType = document.getElementById('chartType').value;
+            const rateSelector = document.getElementById('rateSelector');
+            const metricSelector = document.getElementById('metricSelector');
+            
+            // Show/hide appropriate selectors based on chart type
+            if (chartType === 'roi_vs_coupon') {
+                rateSelector.classList.add('d-none');
+                metricSelector.classList.add('d-none');
+                await fetchRoiVsCouponChart();
+            } else if (chartType === 'roi_vs_time') {
+                rateSelector.classList.remove('d-none');
+                metricSelector.classList.add('d-none');
+                await fetchRoiVsTimeChart(rateSelector.value);
+            } else if (chartType === 'cost_effectiveness') {
+                rateSelector.classList.remove('d-none');
+                metricSelector.classList.remove('d-none');
+                await fetchCostEffectivenessChart(rateSelector.value, metricSelector.value);
+            }
+        }
+        
+        // Fetch ROI vs Coupon chart
+        async function fetchRoiVsCouponChart() {
+            try {
+                const response = await fetch('/api/charts/roi_vs_coupon');
+                const data = await response.json();
+                
+                if (data && data.chart) {
+                    document.getElementById('roiChart').src = `data:image/png;base64,${data.chart}`;
+                }
+            } catch (error) {
+                console.error('Error fetching ROI vs Coupon chart:', error);
+            }
+        }
+        
+        // Fetch ROI vs Time chart
+        async function fetchRoiVsTimeChart(rate) {
+            try {
+                const response = await fetch(`/api/charts/roi_vs_time?rate=${rate || ''}`);
+                const data = await response.json();
+                
+                if (data && data.chart) {
+                    document.getElementById('roiChart').src = `data:image/png;base64,${data.chart}`;
+                }
+            } catch (error) {
+                console.error('Error fetching ROI vs Time chart:', error);
+            }
+        }
+        
+        // Fetch Cost Effectiveness chart
+        async function fetchCostEffectivenessChart(rate, metric) {
+            try {
+                const response = await fetch(`/api/charts/cost_effectiveness?rate=${rate || ''}&metric=${metric}`);
+                const data = await response.json();
+                
+                if (data && data.chart) {
+                    document.getElementById('roiChart').src = `data:image/png;base64,${data.chart}`;
+                }
+            } catch (error) {
+                console.error('Error fetching Cost Effectiveness chart:', error);
+            }
+        }
+        
+        // Populate rate selector with available rates
+        async function populateRateSelector() {
+            try {
+                // For demo purposes, we'll use some sample rates
+                // In a real implementation, these would come from an API
+                availableRates = [3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0];
+                
+                const rateSelector = document.getElementById('rateSelector');
+                rateSelector.innerHTML = '';
+                
+                // Add an 'All Rates' option
+                const allOption = document.createElement('option');
+                allOption.value = '';
+                allOption.textContent = 'All Rates';
+                rateSelector.appendChild(allOption);
+                
+                // Add each rate as an option
+                availableRates.forEach(rate => {
+                    const option = document.createElement('option');
+                    option.value = rate;
+                    option.textContent = `${rate.toFixed(1)}%`;
+                    rateSelector.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error populating rate selector:', error);
+            }
+        }
 
         // Calculate implied rate from MBB price
         function calculateImpliedRate(mbbPrice) {
@@ -315,6 +439,21 @@
         document.getElementById('timeRange').addEventListener('change', (e) => {
             fetchData(e.target.value);
         });
+        
+        // Handle chart type change
+        document.getElementById('chartType').addEventListener('change', () => {
+            loadRoiChart();
+        });
+        
+        // Handle rate selection change
+        document.getElementById('rateSelector').addEventListener('change', () => {
+            loadRoiChart();
+        });
+        
+        // Handle metric selection change
+        document.getElementById('metricSelector').addEventListener('change', () => {
+            loadRoiChart();
+        });
 
         // Handle natural language query
         document.getElementById('queryBtn').addEventListener('click', async () => {
@@ -362,6 +501,8 @@
         // Load data on page load
         window.addEventListener('DOMContentLoaded', () => {
             fetchData('1d');
+            populateRateSelector();
+            loadRoiChart();
         });
     </script>
 </body>

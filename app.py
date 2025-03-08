@@ -3,6 +3,7 @@ from sqlalchemy import create_engine, text, desc
 from sqlalchemy.orm import sessionmaker
 from data_collector import initialize_db, MBBCoupon
 from calculations import calculate_roi
+from visualization import BuydownVisualizer
 import pandas as pd
 from datetime import datetime, timedelta
 import io
@@ -18,6 +19,9 @@ app = Flask(__name__)
 # Initialize database
 engine = initialize_db()
 Session = sessionmaker(bind=engine)
+
+# Initialize visualizer
+visualizer = BuydownVisualizer()
 
 @app.route('/')
 def home():
@@ -82,6 +86,90 @@ def get_mbb_data():
         })
     except Exception as e:
         logger.error(f"Error fetching MBB data: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/charts/roi_vs_coupon')
+def get_roi_vs_coupon_chart():
+    try:
+        # Get date parameter
+        date_str = request.args.get('date')
+        date = pd.to_datetime(date_str) if date_str else None
+        
+        # Query database for data
+        session = Session()
+        data = session.query(MBBCoupon).all()
+        session.close()
+        
+        # Convert to DataFrame
+        df = pd.DataFrame([(d.close, calculate_roi(d.close)) for d in data],
+                         columns=['original_rate', 'roi'])
+        
+        # Generate chart
+        fig = visualizer.plot_roi_vs_coupon(df, date=date)
+        
+        # Convert to base64
+        img_str = visualizer.figure_to_base64(fig)
+        
+        return jsonify({'chart': img_str})
+    except Exception as e:
+        logger.error(f"Error generating ROI vs Coupon chart: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/charts/roi_vs_time')
+def get_roi_vs_time_chart():
+    try:
+        # Get rate parameter
+        rate = request.args.get('rate', type=float)
+        
+        # Query database for data
+        session = Session()
+        data = session.query(MBBCoupon).all()
+        session.close()
+        
+        # Convert to DataFrame
+        df = pd.DataFrame([(d.timestamp, d.close, calculate_roi(d.close)) for d in data],
+                         columns=['date', 'original_rate', 'roi'])
+        
+        # Generate chart
+        fig = visualizer.plot_roi_vs_time(df, rate=rate)
+        
+        # Convert to base64
+        img_str = visualizer.figure_to_base64(fig)
+        
+        return jsonify({'chart': img_str})
+    except Exception as e:
+        logger.error(f"Error generating ROI vs Time chart: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/charts/cost_effectiveness')
+def get_cost_effectiveness_chart():
+    try:
+        # Get parameters
+        metric = request.args.get('metric', 'buydown_cost')
+        rate = request.args.get('rate', type=float)
+        
+        # Query database for data
+        session = Session()
+        data = session.query(MBBCoupon).all()
+        session.close()
+        
+        # Convert to DataFrame
+        df = pd.DataFrame([(d.timestamp, d.close, calculate_roi(d.close)) for d in data],
+                         columns=['date', 'original_rate', 'roi'])
+        
+        # Add cost metrics
+        df['buydown_cost'] = df['original_rate'] * 1000  # Example calculation
+        df['rate_difference'] = df['original_rate'].diff()
+        
+        # Generate chart
+        fig = visualizer.plot_cost_effectiveness_vs_time(df, metric=metric, rate=rate)
+        
+        # Convert to base64
+        img_str = visualizer.figure_to_base64(fig)
+        
+        return jsonify({'chart': img_str})
+    except Exception as e:
+        logger.error(f"Error generating Cost Effectiveness chart: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/api/roi/<float:loan_amount>/<float:original_rate>/<float:buydown_rate>')

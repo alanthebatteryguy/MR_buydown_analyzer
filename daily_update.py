@@ -6,11 +6,8 @@ import requests
 
 from data_ingestion import (
     initialize_schema,
-    get_nyfed_mbs_data,
     store_data,
-    get_mbs_prices_for_date,
-    send_alert,
-    ai_validate_anomalies
+    send_alert
 )
 from calculations import calculate_roi
 import pandas as pd
@@ -58,42 +55,11 @@ def process_update(trade_date: Optional[datetime] = None) -> int:
         trade_date = trade_date or get_trade_date()
         logger.info(f"Processing update for {trade_date.strftime('%Y-%m-%d')}")
 
-        # Data retrieval with retry
-        df = get_nyfed_mbs_data(trade_date)
-        if df.empty:
-            logger.warning("No data available for processing")
-            return 1
-
-        # Data validation
-        if not validate_dataframe(df):
-            logger.error("Data validation failed")
-            return 2
-
-        # Anomaly detection workflow
-        anomalies = ai_validate_anomalies(df)
-        if not anomalies['suspicious'].empty:
-            send_alert(anomalies['suspicious'])
-            logger.warning(f"Sent alert for {len(anomalies['suspicious'])} suspicious entries")
-
-        # Store validated data
-        store_data(anomalies['valid'])
-        logger.info(f"Stored {len(anomalies['valid'])} validated records")
-
-        # ROI calculations
-        price_data = get_mbs_prices_for_date(trade_date)
-        for original_rate in price_data:
-            for increment in [0.1, 0.25, 0.5]:
-                buydown_rate = round(original_rate - increment, 2)
-                if buydown_rate in price_data:
-                    calculate_roi(
-                        loan_amount=300000,
-                        original_rate=original_rate,
-                        buydown_rate=buydown_rate,
-                        price_data=price_data,
-                        date=trade_date
-                    )
-        logger.info("Completed ROI calculations")
-
+        # Placeholder for new data collection implementation
+        # Will be replaced with new implementation from Redo.md
+        logger.info("Data collection implementation pending")
+        
+        # Return early until new implementation is in place
         return 0
 
     except requests.RequestException as e:

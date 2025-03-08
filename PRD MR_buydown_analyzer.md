@@ -38,11 +38,34 @@ Below is a comprehensive Product Requirements Document (PRD) for an application 
 ## 3. **Functional Requirements**
 
 ### 3.1 Data Collection & Management
+1. **Data Sources**
+   - Primary: iShares MBS ETF (MBB) price data via Yahoo Finance API
+   - 15-minute interval data collection for intraday tracking
+   - Historical daily data for long-term analysis
+
 2. **Data Storage**  
    - SQLite implementation at `mbs_data.db` with:
-     - Compound primary key (date + coupon_rate) ✔️
-     - Test dataset generation capability ✔️
+     - Primary key: timestamp (DateTime)
+     - OHLCV data structure for price tracking
      - Schema validation on write operations ✔️
+
+3. **Data Cleaning & Validation**  
+   - Volume sanity check: Reject entries with volume < 10,000 shares
+   - Price variance monitoring: Alert if 15-minute swing > 2%
+   - Time continuity: Verify no gaps > 20 minutes in timestamps
+   - Correlation check: Compare against ^MORT mortgage index
+
+4. **Rate Conversion Logic**
+   - Convert MBB prices to implied rates using historical correlation
+   - Base rate: 2.5% (minimum observed)
+   - Price normalization: 90-120 range
+   - Formula: rate = base_rate + (6.0 * price_ratio)
+
+5. **Automated Collection**
+   - APScheduler-based 15-minute interval updates
+   - Redundant data checks for 99.9% uptime
+   - Historical backfill capability for up to 5 years
+   - Compliance with Yahoo Finance usage policies
 
 3. **Data Cleaning & Validation**  
    - AI-based or rule-based methods to detect anomalies (e.g., sudden spikes from 95 to 110 in one day, or missing data).  
@@ -159,66 +182,189 @@ Below is a comprehensive Product Requirements Document (PRD) for an application 
 ```
 
 ### 7.2 Components
-7. **Context Providers**  
-   - Implemented in `context_providers.py`  
-   - Required by NLU query system for real-time rate data  
-   - Must be updated with actual data source integrations
-5. **Testing Framework**  
-   - pytest 8.3+ required for unit tests  
-   - pytest-cov 4.1+ for coverage reporting  
-   - python-dotenv 1.0+ for environment management
-
 1. **Data Ingestion**  
-   - Python 3.11.6 script using:  
-     - `requests-html` for Mortgage News Daily scraping  
-     - `pandas` for FRED API interaction (`fredapi` package)  
+   - Python 3.11+ script using:  
+     - `yfinance` for MBB ETF data collection  
+     - `pandas` for data processing  
      - `sqlalchemy` for SQLite interaction
+     - `apscheduler` for automated data collection
 
-4. **Calculation Engine**  
-   - Python 3.11.6 scripts with strict numerical validation  
-   - 10 bps increment logic implemented in all ROI calculations
+2. **Data Storage**
+   - SQLite database with SQLAlchemy ORM
+   - OHLCV data structure for price tracking
+   - Timestamp-based primary key
+
+3. **Monitoring System**
+   - `prometheus_client` for metrics exposure
+   - `psutil` for resource monitoring
+   - Data freshness tracking
 
 ---
 
-## 8. **Implementation Plan**
+## 7.3 **Current Implementation Details**
 
-1. **Phase 1: Data Infrastructure & Basic Calculations** ✅ COMPLETED
-   - Database setup ✔️ - SQLite schema with automated table creation **and operational imports**
-   - Dual-source ingestion ✔️ - Real data collection via cron job
-   - Test dataset generation ✔️ - Synthetic data validation implemented
-   - Anomaly detection ✔️ - 5% daily price change threshold + test data verification
-   - Unit tests ✔️ - Validation for calculation edge cases + SQL injection prevention
+### Data Collection Module
+- **Implementation Status**: ✅ Complete
+- **Key Files**: `data_collector.py`, `user_agent_rotation.py`, `disclaimer.py`
+- **Features**:
+  - MBB ETF data collection via Yahoo Finance API
+  - 15-minute interval data with prepost market data
+  - Robust error handling and logging
+  - User-agent rotation for API compliance
+  - Disclaimer management system
 
-2. **Phase 2: Visualization & Front-End**  
-   - **Step 5**: ✅ Matplotlib implementation complete  
-     - Validated with synthetic test data ✔️  
-     - 10bps increment visualization operational ✔️  
-   - **Step 6**: ✅ Flask UI framework enhanced  
-     - Chart export functionality implemented ✔️  
-     - Time-series calculation accuracy improved ✔️  
-     - Basic data tooltips via tables ✔️  
-     - Remaining: Advanced hover tooltips ➔  
+### Data Validation Module
+- **Implementation Status**: ✅ Complete
+- **Key Files**: `data_validation.py`
+- **Features**:
+  - Volume threshold validation (MIN_VALID_VOLUME = 100)
+  - Price variance monitoring (2.0% threshold)
+  - Market hours-aware time continuity checks
+  - MORT correlation validation (0.7 threshold)
+  - Timezone handling with pytz
 
-3. **Phase 3: AI Integration**  
-   - **Step 7**: ✅ AI-enhanced anomaly detection  
-     - Gemini integration tested ✔️  
-     - Alerting system implemented ✔️  
-     - Unit tests & sample data added ✔️  
-   - **Step 8 (Optional)**: Build or integrate an LLM-based feature for natural language queries.  
-   - **Step 9 (Optional)**: Add a forecasting model that predicts future ROI based on historical data.
+### Data Retention Module
+- **Implementation Status**: ✅ Complete
+- **Key Files**: `data_retention.py`
+- **Features**:
+  - Configurable retention period (default: 2 years)
+  - Automatic database cleanup
+  - Database optimization (VACUUM)
 
-4. **Phase 4: Testing & Refinement**  
-   - **Step 10**: 🚧 Test data integrity & calculation correctness  
-     - AI validation test cases ✔️  
-     - NLU query response validation ➔  
-   - **Step 11**: 🚧 User acceptance testing (UAT) preparation  
-     - Test user onboarding checklist ➔  
-   - **Step 12**: ❌ UI refinement pending UAT feedback
+### Calculation Engine
+- **Implementation Status**: ✅ Complete
+- **Key Files**: `calculation_engine.py`, `calculations.py`
+- **Features**:
+  - Monthly payment calculations
+  - Buydown cost computations
+  - ROI analysis with time-series support
+  - Support for variable loan amounts and terms
 
-5. **Phase 5: Deployment & Maintenance**  
-   - **Step 13**: Deploy the application (on a cloud service or local server).  
-   - **Step 14**: Schedule the daily data update jobs.  
-   - **Step 15**: Maintain code, update data sources, and incorporate new features as needed.
+### Visualization Module
+- **Implementation Status**: 🚧 Partially Complete
+- **Key Files**: `visualization.py`
+- **Features**:
+  - ROI vs. Coupon Rate charts
+  - ROI vs. Time charts
+  - Theme support (default, dark, light)
+  - Basic data tooltips
+- **Pending**:
+  - Advanced hover tooltips
+  - Interactive filtering
+
+### Web Application
+- **Implementation Status**: 🚧 In Progress
+- **Key Files**: `app.py`
+- **Features**:
+  - Basic Flask framework
+  - Chart rendering
+- **Pending**:
+  - Interactive UI elements
+  - User customization options
+  - Export functionality
+
+### Natural Language Interface
+- **Implementation Status**: ❌ Not Started
+- **Key Files**: `nlu_queries.py` (placeholder)
+- **Pending**:
+  - Query parsing
+  - Response generation
+  - Integration with calculation engine
+
+4. **Calculation Engine**  
+   - Python 3.11+ scripts with strict numerical validation  
+   - 10 bps increment logic implemented in all ROI calculations
+   - Implied rate conversion from MBB prices
+
+---
+
+## 8. **Project Status & Implementation Plan**
+
+### Current Status Overview
+
+1. **Completed Components** ✅
+   - **Data Infrastructure**
+     - SQLite database with SQLAlchemy ORM ✔️
+     - Automated table creation and schema management ✔️
+     - Data retention policies (2-year retention implemented) ✔️
+
+   - **Data Collection**
+     - MBB ETF price data via Yahoo Finance API ✔️
+     - 15-minute interval updates ✔️
+     - User-Agent rotation for API compliance ✔️
+     - Disclaimer management system ✔️
+
+   - **Data Validation**
+     - Volume threshold checks (MIN_VALID_VOLUME = 100) ✔️
+     - Price variance monitoring (2.0% threshold) ✔️
+     - Market hours-aware time continuity checks ✔️
+     - MORT correlation validation (0.7 threshold) ✔️
+
+   - **Calculation Engine**
+     - Monthly payment calculations ✔️
+     - Buydown cost computations ✔️
+     - ROI analysis with time-series support ✔️
+
+   - **Visualization**
+     - Matplotlib implementation for ROI charts ✔️
+     - Time-series visualization ✔️
+     - Basic data tooltips ✔️
+
+2. **In Progress** 🚧
+   - **Testing & Validation**
+     - Core functionality tests implemented
+     - Data integrity validation ongoing
+     - NLU query response validation pending
+
+   - **User Interface**
+     - Basic Flask framework in place
+     - Advanced hover tooltips needed
+     - UAT preparation in progress
+
+3. **Pending Implementation** ❌
+   - **AI Integration**
+     - Natural language query system
+     - ROI forecasting model
+     - Enhanced anomaly detection
+
+   - **Deployment**
+     - Cloud service setup
+     - Production environment configuration
+     - Monitoring system implementation
+
+### Next Steps
+
+1. **Immediate Priority**
+   - Complete NLU query response validation
+   - Finish UAT preparation checklist
+   - Implement advanced hover tooltips
+
+2. **Short-term Goals**
+   - Set up cloud deployment infrastructure
+   - Configure production monitoring
+   - Complete UI refinements based on UAT feedback
+
+3. **Long-term Objectives**
+   - Implement AI-powered natural language interface
+   - Develop ROI forecasting capabilities
+   - Enhance anomaly detection with machine learning
+
+### Development Timeline
+
+1. **Q1 2024**
+   - Complete all testing and validation
+   - Finish UI refinements
+   - Deploy initial production version
+
+2. **Q2 2024**
+   - Implement AI features
+   - Enhance monitoring and alerting
+   - Gather and incorporate user feedback
+
+3. **Q3 2024 and Beyond**
+   - Scale system based on usage
+   - Add advanced analytics features
+   - Implement continuous improvements
 
 ---
 

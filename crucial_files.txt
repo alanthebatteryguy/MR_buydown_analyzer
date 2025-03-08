@@ -1,0 +1,24 @@
+# Core Files for LLM Review
+
+## Data Collection and Processing
+data_collector.py - Main data collection logic for MBB (Mortgage-Backed Securities) data
+data_validation.py - Data validation and verification functions
+
+## Calculation Engine
+calculations.py - Core mortgage rate and buydown calculations
+calculation_engine.py - Extended calculation functionality
+
+## API and Web Interface
+app.py - Main Flask application with API endpoints
+templates/dashboard.html - Main dashboard interface
+templates/index.html - Landing page
+
+## Data Management
+data_retention.py - Data retention policies and cleanup
+context_providers.py - Context management for calculations
+
+These files represent the core functionality of the mortgage rate buydown analyzer:
+- Data collection and validation from financial sources
+- Mortgage rate calculations and buydown analysis
+- Web API endpoints and user interface
+- Data management and retention logic

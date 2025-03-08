@@ -1,0 +1,516 @@
+2025-03-07 09:57:22,235 - __main__ - INFO - === Starting Core Functionality Tests ===
+2025-03-07 09:57:22,235 - __main__ - INFO - 
+=== Testing Data Collection ===
+2025-03-07 09:57:22,235 - __main__ - INFO - Testing data collection...
+2025-03-07 09:57:22,907 - __main__ - INFO - ✅ Successfully collected 11 data points
+2025-03-07 09:57:22,913 - __main__ - INFO - Sample data:
+Price                   Datetime      Close       High        Low       Open  Volume
+Ticker                                  MBB        MBB        MBB        MBB     MBB
+0      2025-03-07 13:00:00+00:00  93.390000  93.390000  93.390000  93.390000       0
+1      2025-03-07 14:30:00+00:00  93.474998  93.599998  93.474998  93.535004  106724
+2      2025-03-07 14:45:00+00:00  93.480003  93.480003  93.400002  93.480003   68741
+3      2025-03-07 15:00:00+00:00  93.431099  93.514999  93.370003  93.495003   89498
+4      2025-03-07 15:15:00+00:00  93.440002  93.495003  93.432198  93.440002  251113
+2025-03-07 09:57:22,913 - __main__ - INFO - 
+=== Testing Data Validation ===
+2025-03-07 09:57:22,913 - __main__ - INFO - Testing data validation...
+2025-03-07 09:57:22,954 - __main__ - ERROR - Test failed with exception: 'volume'
+2025-03-07 09:57:22,954 - __main__ - INFO - 
+=== Testing Database Operations ===
+2025-03-07 09:57:22,954 - __main__ - INFO - Testing database operations...
+2025-03-07 09:57:23,004 - __main__ - ERROR - ❌ Database operations failed: keywords must be strings
+2025-03-07 09:57:23,004 - __main__ - INFO - 
+=== Testing Basic Calculations ===
+2025-03-07 09:57:23,004 - __main__ - INFO - Testing basic mortgage calculations...
+2025-03-07 09:57:23,004 - __main__ - INFO - Monthly payment at 3.0%: $1264.81
+2025-03-07 09:57:23,004 - __main__ - INFO - Monthly payment at 3.5%: $1347.13
+2025-03-07 09:57:23,004 - __main__ - INFO - Monthly payment at 4.0%: $1432.25
+2025-03-07 09:57:23,004 - __main__ - INFO - Monthly payment at 4.5%: $1520.06
+2025-03-07 09:57:23,004 - __main__ - INFO - Monthly payment at 5.0%: $1610.46
+2025-03-07 09:57:23,004 - __main__ - INFO - Monthly payment at 5.5%: $1703.37
+2025-03-07 09:57:23,004 - __main__ - INFO - Monthly payment at 6.0%: $1798.65
+2025-03-07 09:57:23,004 - __main__ - INFO - Cost to buy down from price 95 to 96: $-3000.00
+2025-03-07 09:57:23,004 - __main__ - INFO - Cost to buy down from price 96 to 97: $-3000.00
+2025-03-07 09:57:23,004 - __main__ - INFO - Cost to buy down from price 97 to 98: $-3000.00
+2025-03-07 09:57:23,004 - __main__ - INFO - Cost to buy down from price 98 to 99: $-3000.00
+2025-03-07 09:57:23,004 - __main__ - INFO - Cost to buy down from price 99 to 100: $-3000.00
+2025-03-07 09:57:23,004 - __main__ - INFO - Cost to buy down from price 100 to 101: $-3000.00
+2025-03-07 09:57:23,004 - __main__ - INFO - ROI for buying down from 3.5% to 3.0%: 32.93%
+2025-03-07 09:57:23,004 - __main__ - INFO - ROI for buying down from 4.0% to 3.5%: 34.04%
+2025-03-07 09:57:23,004 - __main__ - INFO - ROI for buying down from 4.5% to 4.0%: 35.12%
+2025-03-07 09:57:23,004 - __main__ - INFO - ROI for buying down from 5.0% to 4.5%: 36.16%
+2025-03-07 09:57:23,004 - __main__ - INFO - ROI for buying down from 5.5% to 5.0%: 37.16%
+2025-03-07 09:57:23,004 - __main__ - INFO - ROI for buying down from 6.0% to 5.5%: 38.11%
+2025-03-07 09:57:23,286 - __main__ - INFO - ✅ Test visualization saved to test_output/roi_test.png
+2025-03-07 09:57:23,286 - __main__ - INFO - 
+=== Test Results Summary ===
+2025-03-07 09:57:23,286 - __main__ - INFO - ✅ PASSED - Data Collection
+2025-03-07 09:57:23,286 - __main__ - INFO - ❌ FAILED - Data Validation
+2025-03-07 09:57:23,286 - __main__ - INFO - ❌ FAILED - Database Operations
+2025-03-07 09:57:23,286 - __main__ - INFO - ✅ PASSED - Basic Calculations
+2025-03-07 09:57:23,286 - __main__ - INFO - 
+⚠️ Some tests failed. Please review the logs for details.
+2025-03-07 09:59:38,567 - __main__ - INFO - === Starting Core Functionality Tests ===
+2025-03-07 09:59:38,567 - __main__ - INFO - 
+=== Testing Data Collection ===
+2025-03-07 09:59:38,567 - __main__ - INFO - Testing data collection...
+2025-03-07 09:59:38,951 - __main__ - INFO - ✅ Successfully collected 11 data points
+2025-03-07 09:59:38,956 - __main__ - INFO - Sample data:
+Price                   Datetime      Close       High        Low       Open  Volume
+Ticker                                  MBB        MBB        MBB        MBB     MBB
+0      2025-03-07 13:00:00+00:00  93.390000  93.390000  93.390000  93.390000       0
+1      2025-03-07 14:30:00+00:00  93.474998  93.599998  93.474998  93.535004  106724
+2      2025-03-07 14:45:00+00:00  93.480003  93.480003  93.400002  93.480003   68741
+3      2025-03-07 15:00:00+00:00  93.431099  93.514999  93.370003  93.495003   89498
+4      2025-03-07 15:15:00+00:00  93.440002  93.495003  93.432198  93.440002  251113
+2025-03-07 09:59:38,957 - __main__ - INFO - 
+=== Testing Data Validation ===
+2025-03-07 09:59:38,957 - __main__ - INFO - Testing data validation...
+2025-03-07 09:59:39,018 - __main__ - ERROR - Test failed with exception: 'volume'
+2025-03-07 09:59:39,018 - __main__ - INFO - 
+=== Testing Database Operations ===
+2025-03-07 09:59:39,018 - __main__ - INFO - Testing database operations...
+2025-03-07 09:59:39,096 - __main__ - ERROR - ❌ Database operations failed: keywords must be strings
+2025-03-07 09:59:39,096 - __main__ - INFO - 
+=== Testing Basic Calculations ===
+2025-03-07 09:59:39,096 - __main__ - INFO - Testing basic mortgage calculations...
+2025-03-07 09:59:39,096 - __main__ - INFO - Monthly payment at 3.0%: $1264.81
+2025-03-07 09:59:39,096 - __main__ - INFO - Monthly payment at 3.5%: $1347.13
+2025-03-07 09:59:39,096 - __main__ - INFO - Monthly payment at 4.0%: $1432.25
+2025-03-07 09:59:39,096 - __main__ - INFO - Monthly payment at 4.5%: $1520.06
+2025-03-07 09:59:39,096 - __main__ - INFO - Monthly payment at 5.0%: $1610.46
+2025-03-07 09:59:39,096 - __main__ - INFO - Monthly payment at 5.5%: $1703.37
+2025-03-07 09:59:39,096 - __main__ - INFO - Monthly payment at 6.0%: $1798.65
+2025-03-07 09:59:39,096 - __main__ - INFO - Cost to buy down from price 95 to 96: $-3000.00
+2025-03-07 09:59:39,096 - __main__ - INFO - Cost to buy down from price 96 to 97: $-3000.00
+2025-03-07 09:59:39,096 - __main__ - INFO - Cost to buy down from price 97 to 98: $-3000.00
+2025-03-07 09:59:39,096 - __main__ - INFO - Cost to buy down from price 98 to 99: $-3000.00
+2025-03-07 09:59:39,096 - __main__ - INFO - Cost to buy down from price 99 to 100: $-3000.00
+2025-03-07 09:59:39,096 - __main__ - INFO - Cost to buy down from price 100 to 101: $-3000.00
+2025-03-07 09:59:39,096 - __main__ - INFO - ROI for buying down from 3.5% to 3.0%: 32.93%
+2025-03-07 09:59:39,096 - __main__ - INFO - ROI for buying down from 4.0% to 3.5%: 34.04%
+2025-03-07 09:59:39,096 - __main__ - INFO - ROI for buying down from 4.5% to 4.0%: 35.12%
+2025-03-07 09:59:39,096 - __main__ - INFO - ROI for buying down from 5.0% to 4.5%: 36.16%
+2025-03-07 09:59:39,096 - __main__ - INFO - ROI for buying down from 5.5% to 5.0%: 37.16%
+2025-03-07 09:59:39,096 - __main__ - INFO - ROI for buying down from 6.0% to 5.5%: 38.11%
+2025-03-07 09:59:39,222 - __main__ - INFO - ✅ Test visualization saved to test_output/roi_test.png
+2025-03-07 09:59:39,222 - __main__ - INFO - 
+=== Test Results Summary ===
+2025-03-07 09:59:39,222 - __main__ - INFO - ✅ PASSED - Data Collection
+2025-03-07 09:59:39,222 - __main__ - INFO - ❌ FAILED - Data Validation
+2025-03-07 09:59:39,222 - __main__ - INFO - ❌ FAILED - Database Operations
+2025-03-07 09:59:39,222 - __main__ - INFO - ✅ PASSED - Basic Calculations
+2025-03-07 09:59:39,222 - __main__ - INFO - 
+⚠️ Some tests failed. Please review the logs for details.
+2025-03-07 10:09:24,133 - __main__ - INFO - === Starting Core Functionality Tests ===
+2025-03-07 10:09:24,133 - __main__ - INFO - 
+=== Testing Data Collection ===
+2025-03-07 10:09:24,134 - __main__ - INFO - Testing data collection...
+2025-03-07 10:09:24,560 - __main__ - INFO - ✅ Successfully collected 12 data points
+2025-03-07 10:09:24,564 - __main__ - INFO - Sample data:
+Price                   Datetime      Close       High        Low       Open  Volume
+Ticker                                  MBB        MBB        MBB        MBB     MBB
+0      2025-03-07 13:00:00+00:00  93.390000  93.390000  93.390000  93.390000       0
+1      2025-03-07 14:30:00+00:00  93.474998  93.599998  93.474998  93.535004  106724
+2      2025-03-07 14:45:00+00:00  93.480003  93.480003  93.400002  93.480003   68741
+3      2025-03-07 15:00:00+00:00  93.431099  93.514999  93.370003  93.495003   89498
+4      2025-03-07 15:15:00+00:00  93.440002  93.495003  93.432198  93.440002  251113
+2025-03-07 10:09:24,564 - __main__ - INFO - 
+=== Testing Data Validation ===
+2025-03-07 10:09:24,564 - __main__ - INFO - Testing data validation...
+2025-03-07 10:09:24,603 - data_validation - WARNING - Volume below threshold: 0 < 10000
+2025-03-07 10:09:24,604 - data_validation - WARNING - Time gap exceeds threshold: 90.0 minutes > 20 minutes
+2025-03-07 10:09:25,420 - yfinance - ERROR - 
+1 Failed download:
+2025-03-07 10:09:25,420 - yfinance - ERROR - ['^MORT']: YFPricesMissingError('possibly delisted; no price data found  (1d 2025-02-05 -> 2025-03-07)')
+2025-03-07 10:09:25,421 - data_validation - WARNING - Insufficient data points for correlation: MORT=0, MBB=12
+2025-03-07 10:09:25,422 - __main__ - INFO - ❌ volume_check: False
+2025-03-07 10:09:25,422 - __main__ - INFO - ✅ price_variance_check: True
+2025-03-07 10:09:25,422 - __main__ - INFO - ❌ time_continuity_check: False
+2025-03-07 10:09:25,422 - __main__ - INFO - ❌ mort_correlation_check: False
+2025-03-07 10:09:25,422 - __main__ - INFO - 
+=== Testing Database Operations ===
+2025-03-07 10:09:25,423 - __main__ - INFO - Testing database operations...
+2025-03-07 10:09:25,476 - __main__ - INFO - ✅ Successfully inserted 12 records
+2025-03-07 10:09:25,477 - __main__ - INFO - Latest record: 2025-03-07 17:00:00 - Close: 93.59529876708984
+2025-03-07 10:09:25,477 - __main__ - INFO - 
+=== Testing Basic Calculations ===
+2025-03-07 10:09:25,477 - __main__ - INFO - Testing basic mortgage calculations...
+2025-03-07 10:09:25,477 - __main__ - INFO - Monthly payment at 3.0%: $1264.81
+2025-03-07 10:09:25,477 - __main__ - INFO - Monthly payment at 3.5%: $1347.13
+2025-03-07 10:09:25,477 - __main__ - INFO - Monthly payment at 4.0%: $1432.25
+2025-03-07 10:09:25,477 - __main__ - INFO - Monthly payment at 4.5%: $1520.06
+2025-03-07 10:09:25,477 - __main__ - INFO - Monthly payment at 5.0%: $1610.46
+2025-03-07 10:09:25,477 - __main__ - INFO - Monthly payment at 5.5%: $1703.37
+2025-03-07 10:09:25,477 - __main__ - INFO - Monthly payment at 6.0%: $1798.65
+2025-03-07 10:09:25,477 - __main__ - INFO - Cost to buy down from price 95 to 96: $-3000.00
+2025-03-07 10:09:25,477 - __main__ - INFO - Cost to buy down from price 96 to 97: $-3000.00
+2025-03-07 10:09:25,477 - __main__ - INFO - Cost to buy down from price 97 to 98: $-3000.00
+2025-03-07 10:09:25,477 - __main__ - INFO - Cost to buy down from price 98 to 99: $-3000.00
+2025-03-07 10:09:25,477 - __main__ - INFO - Cost to buy down from price 99 to 100: $-3000.00
+2025-03-07 10:09:25,477 - __main__ - INFO - Cost to buy down from price 100 to 101: $-3000.00
+2025-03-07 10:09:25,477 - __main__ - INFO - ROI for buying down from 3.5% to 3.0%: 32.93%
+2025-03-07 10:09:25,478 - __main__ - INFO - ROI for buying down from 4.0% to 3.5%: 34.04%
+2025-03-07 10:09:25,478 - __main__ - INFO - ROI for buying down from 4.5% to 4.0%: 35.12%
+2025-03-07 10:09:25,478 - __main__ - INFO - ROI for buying down from 5.0% to 4.5%: 36.16%
+2025-03-07 10:09:25,478 - __main__ - INFO - ROI for buying down from 5.5% to 5.0%: 37.16%
+2025-03-07 10:09:25,478 - __main__ - INFO - ROI for buying down from 6.0% to 5.5%: 38.11%
+2025-03-07 10:09:25,687 - __main__ - INFO - ✅ Test visualization saved to test_output/roi_test.png
+2025-03-07 10:09:25,687 - __main__ - INFO - 
+=== Test Results Summary ===
+2025-03-07 10:09:25,687 - __main__ - INFO - ✅ PASSED - Data Collection
+2025-03-07 10:09:25,687 - __main__ - INFO - ❌ FAILED - Data Validation
+2025-03-07 10:09:25,687 - __main__ - INFO - ✅ PASSED - Database Operations
+2025-03-07 10:09:25,687 - __main__ - INFO - ✅ PASSED - Basic Calculations
+2025-03-07 10:09:25,687 - __main__ - INFO - 
+⚠️ Some tests failed. Please review the logs for details.
+2025-03-07 10:12:11,426 - __main__ - INFO - === Starting Core Functionality Tests ===
+2025-03-07 10:12:11,426 - __main__ - INFO - 
+=== Testing Data Collection ===
+2025-03-07 10:12:11,426 - __main__ - INFO - Testing data collection...
+2025-03-07 10:12:11,832 - __main__ - INFO - ✅ Successfully collected 12 data points
+2025-03-07 10:12:11,835 - __main__ - INFO - Sample data:
+Price                   Datetime      Close       High        Low       Open  Volume
+Ticker                                  MBB        MBB        MBB        MBB     MBB
+0      2025-03-07 13:00:00+00:00  93.390000  93.390000  93.390000  93.390000       0
+1      2025-03-07 14:30:00+00:00  93.474998  93.599998  93.474998  93.535004  106724
+2      2025-03-07 14:45:00+00:00  93.480003  93.480003  93.400002  93.480003   68741
+3      2025-03-07 15:00:00+00:00  93.431099  93.514999  93.370003  93.495003   89498
+4      2025-03-07 15:15:00+00:00  93.440002  93.495003  93.432198  93.440002  251113
+2025-03-07 10:12:11,835 - __main__ - INFO - 
+=== Testing Data Validation ===
+2025-03-07 10:12:11,835 - __main__ - INFO - Testing data validation...
+2025-03-07 10:12:11,877 - data_validation - WARNING - Time gap exceeds threshold: 90.0 minutes > 20 minutes
+2025-03-07 10:12:12,281 - yfinance - ERROR - 
+1 Failed download:
+2025-03-07 10:12:12,282 - yfinance - ERROR - ['^MORT']: YFPricesMissingError('possibly delisted; no price data found  (1d 2025-02-05 -> 2025-03-07)')
+2025-03-07 10:12:12,285 - data_validation - WARNING - Insufficient data points for correlation: MORT=0, MBB=12
+2025-03-07 10:12:12,285 - __main__ - INFO - ✅ volume_check: True
+2025-03-07 10:12:12,285 - __main__ - INFO - ✅ price_variance_check: True
+2025-03-07 10:12:12,286 - __main__ - INFO - ❌ time_continuity_check: False
+2025-03-07 10:12:12,286 - __main__ - INFO - ❌ mort_correlation_check: False
+2025-03-07 10:12:12,286 - __main__ - INFO - 
+=== Testing Database Operations ===
+2025-03-07 10:12:12,286 - __main__ - INFO - Testing database operations...
+2025-03-07 10:12:12,355 - __main__ - INFO - ✅ Successfully inserted 12 records
+2025-03-07 10:12:12,356 - __main__ - INFO - Latest record: 2025-03-07 17:00:00 - Close: 93.58999633789062
+2025-03-07 10:12:12,356 - __main__ - INFO - 
+=== Testing Basic Calculations ===
+2025-03-07 10:12:12,356 - __main__ - INFO - Testing basic mortgage calculations...
+2025-03-07 10:12:12,356 - __main__ - INFO - Monthly payment at 3.0%: $1264.81
+2025-03-07 10:12:12,357 - __main__ - INFO - Monthly payment at 3.5%: $1347.13
+2025-03-07 10:12:12,357 - __main__ - INFO - Monthly payment at 4.0%: $1432.25
+2025-03-07 10:12:12,357 - __main__ - INFO - Monthly payment at 4.5%: $1520.06
+2025-03-07 10:12:12,357 - __main__ - INFO - Monthly payment at 5.0%: $1610.46
+2025-03-07 10:12:12,357 - __main__ - INFO - Monthly payment at 5.5%: $1703.37
+2025-03-07 10:12:12,357 - __main__ - INFO - Monthly payment at 6.0%: $1798.65
+2025-03-07 10:12:12,357 - __main__ - INFO - Cost to buy down from price 95 to 96: $-3000.00
+2025-03-07 10:12:12,357 - __main__ - INFO - Cost to buy down from price 96 to 97: $-3000.00
+2025-03-07 10:12:12,357 - __main__ - INFO - Cost to buy down from price 97 to 98: $-3000.00
+2025-03-07 10:12:12,357 - __main__ - INFO - Cost to buy down from price 98 to 99: $-3000.00
+2025-03-07 10:12:12,357 - __main__ - INFO - Cost to buy down from price 99 to 100: $-3000.00
+2025-03-07 10:12:12,357 - __main__ - INFO - Cost to buy down from price 100 to 101: $-3000.00
+2025-03-07 10:12:12,357 - __main__ - INFO - ROI for buying down from 3.5% to 3.0%: 32.93%
+2025-03-07 10:12:12,357 - __main__ - INFO - ROI for buying down from 4.0% to 3.5%: 34.04%
+2025-03-07 10:12:12,357 - __main__ - INFO - ROI for buying down from 4.5% to 4.0%: 35.12%
+2025-03-07 10:12:12,357 - __main__ - INFO - ROI for buying down from 5.0% to 4.5%: 36.16%
+2025-03-07 10:12:12,357 - __main__ - INFO - ROI for buying down from 5.5% to 5.0%: 37.16%
+2025-03-07 10:12:12,357 - __main__ - INFO - ROI for buying down from 6.0% to 5.5%: 38.11%
+2025-03-07 10:12:12,486 - __main__ - INFO - ✅ Test visualization saved to test_output/roi_test.png
+2025-03-07 10:12:12,486 - __main__ - INFO - 
+=== Test Results Summary ===
+2025-03-07 10:12:12,486 - __main__ - INFO - ✅ PASSED - Data Collection
+2025-03-07 10:12:12,486 - __main__ - INFO - ❌ FAILED - Data Validation
+2025-03-07 10:12:12,486 - __main__ - INFO - ✅ PASSED - Database Operations
+2025-03-07 10:12:12,486 - __main__ - INFO - ✅ PASSED - Basic Calculations
+2025-03-07 10:12:12,487 - __main__ - INFO - 
+⚠️ Some tests failed. Please review the logs for details.
+2025-03-07 10:17:33,429 - __main__ - INFO - === Starting Core Functionality Tests ===
+2025-03-07 10:17:33,429 - __main__ - INFO - 
+=== Testing Data Collection ===
+2025-03-07 10:17:33,429 - __main__ - INFO - Testing data collection...
+2025-03-07 10:17:37,026 - __main__ - INFO - ✅ Successfully collected 13 data points
+2025-03-07 10:17:37,032 - __main__ - INFO - Sample data:
+Price                   Datetime      Close       High        Low       Open  Volume
+Ticker                                  MBB        MBB        MBB        MBB     MBB
+0      2025-03-07 13:00:00+00:00  93.390000  93.390000  93.390000  93.390000       0
+1      2025-03-07 14:30:00+00:00  93.474998  93.599998  93.474998  93.535004  106724
+2      2025-03-07 14:45:00+00:00  93.480003  93.480003  93.400002  93.480003   68741
+3      2025-03-07 15:00:00+00:00  93.431099  93.514999  93.370003  93.495003   89498
+4      2025-03-07 15:15:00+00:00  93.440002  93.495003  93.432198  93.440002  251113
+2025-03-07 10:17:37,032 - __main__ - INFO - 
+=== Testing Data Validation ===
+2025-03-07 10:17:37,032 - __main__ - INFO - Testing data validation...
+2025-03-07 10:17:37,700 - yfinance - ERROR - 
+1 Failed download:
+2025-03-07 10:17:37,700 - yfinance - ERROR - ['^MORT']: YFPricesMissingError('possibly delisted; no price data found  (1d 2025-02-05 -> 2025-03-07)')
+2025-03-07 10:17:37,702 - data_validation - WARNING - Insufficient data points for correlation: MORT=0, MBB=13
+2025-03-07 10:17:37,702 - __main__ - INFO - ✅ volume_check: True
+2025-03-07 10:17:37,702 - __main__ - INFO - ✅ price_variance_check: True
+2025-03-07 10:17:37,702 - __main__ - INFO - ✅ time_continuity_check: True
+2025-03-07 10:17:37,702 - __main__ - INFO - ❌ mort_correlation_check: False
+2025-03-07 10:17:37,702 - __main__ - INFO - 
+=== Testing Database Operations ===
+2025-03-07 10:17:37,702 - __main__ - INFO - Testing database operations...
+2025-03-07 10:17:37,702 - __main__ - ERROR - Test failed with exception: name 'create_engine' is not defined
+2025-03-07 10:17:37,702 - __main__ - INFO - 
+=== Testing Basic Calculations ===
+2025-03-07 10:17:37,702 - __main__ - INFO - Testing basic mortgage calculations...
+2025-03-07 10:17:37,702 - __main__ - INFO - Monthly payment at 3.0%: $1264.81
+2025-03-07 10:17:37,702 - __main__ - INFO - Monthly payment at 3.5%: $1347.13
+2025-03-07 10:17:37,703 - __main__ - INFO - Monthly payment at 4.0%: $1432.25
+2025-03-07 10:17:37,703 - __main__ - INFO - Monthly payment at 4.5%: $1520.06
+2025-03-07 10:17:37,703 - __main__ - INFO - Monthly payment at 5.0%: $1610.46
+2025-03-07 10:17:37,703 - __main__ - INFO - Monthly payment at 5.5%: $1703.37
+2025-03-07 10:17:37,703 - __main__ - INFO - Monthly payment at 6.0%: $1798.65
+2025-03-07 10:17:37,703 - __main__ - INFO - Cost to buy down from price 95 to 96: $-3000.00
+2025-03-07 10:17:37,703 - __main__ - INFO - Cost to buy down from price 96 to 97: $-3000.00
+2025-03-07 10:17:37,703 - __main__ - INFO - Cost to buy down from price 97 to 98: $-3000.00
+2025-03-07 10:17:37,703 - __main__ - INFO - Cost to buy down from price 98 to 99: $-3000.00
+2025-03-07 10:17:37,703 - __main__ - INFO - Cost to buy down from price 99 to 100: $-3000.00
+2025-03-07 10:17:37,703 - __main__ - INFO - Cost to buy down from price 100 to 101: $-3000.00
+2025-03-07 10:17:37,704 - __main__ - INFO - ROI for buying down from 3.5% to 3.0%: 32.93%
+2025-03-07 10:17:37,704 - __main__ - INFO - ROI for buying down from 4.0% to 3.5%: 34.04%
+2025-03-07 10:17:37,704 - __main__ - INFO - ROI for buying down from 4.5% to 4.0%: 35.12%
+2025-03-07 10:17:37,704 - __main__ - INFO - ROI for buying down from 5.0% to 4.5%: 36.16%
+2025-03-07 10:17:37,704 - __main__ - INFO - ROI for buying down from 5.5% to 5.0%: 37.16%
+2025-03-07 10:17:37,704 - __main__ - INFO - ROI for buying down from 6.0% to 5.5%: 38.11%
+2025-03-07 10:17:37,919 - __main__ - INFO - ✅ Test visualization saved to test_output/roi_test.png
+2025-03-07 10:17:37,919 - __main__ - INFO - 
+=== Test Results Summary ===
+2025-03-07 10:17:37,919 - __main__ - INFO - ✅ PASSED - Data Collection
+2025-03-07 10:17:37,919 - __main__ - INFO - ❌ FAILED - Data Validation
+2025-03-07 10:17:37,919 - __main__ - INFO - ❌ FAILED - Database Operations
+2025-03-07 10:17:37,919 - __main__ - INFO - ✅ PASSED - Basic Calculations
+2025-03-07 10:17:37,919 - __main__ - INFO - 
+⚠️ Some tests failed. Please review the logs for details.
+2025-03-07 10:21:52,288 - __main__ - INFO - === Starting Core Functionality Tests ===
+2025-03-07 10:21:52,288 - __main__ - INFO - 
+=== Testing Data Collection ===
+2025-03-07 10:21:52,288 - __main__ - INFO - Testing data collection...
+2025-03-07 10:21:52,288 - data_collector - ERROR - Data fetch failed: 'DisclaimerManager' object has no attribute 'show_disclaimer'
+2025-03-07 10:21:52,288 - __main__ - ERROR - ❌ Data collection failed: No data returned
+2025-03-07 10:21:52,288 - __main__ - INFO - 
+=== Testing Data Validation ===
+2025-03-07 10:21:52,288 - __main__ - INFO - Testing data validation...
+2025-03-07 10:21:52,288 - data_collector - ERROR - Data fetch failed: 'DisclaimerManager' object has no attribute 'show_disclaimer'
+2025-03-07 10:21:52,288 - __main__ - ERROR - ❌ Data validation skipped: No data to validate
+2025-03-07 10:21:52,288 - __main__ - INFO - 
+=== Testing Database Operations ===
+2025-03-07 10:21:52,288 - __main__ - INFO - Testing database operations...
+2025-03-07 10:21:52,288 - __main__ - ERROR - Test failed with exception: name 'create_engine' is not defined
+2025-03-07 10:21:52,288 - __main__ - INFO - 
+=== Testing Basic Calculations ===
+2025-03-07 10:21:52,288 - __main__ - INFO - Testing basic mortgage calculations...
+2025-03-07 10:21:52,288 - __main__ - INFO - Monthly payment at 3.0%: $1264.81
+2025-03-07 10:21:52,288 - __main__ - INFO - Monthly payment at 3.5%: $1347.13
+2025-03-07 10:21:52,288 - __main__ - INFO - Monthly payment at 4.0%: $1432.25
+2025-03-07 10:21:52,288 - __main__ - INFO - Monthly payment at 4.5%: $1520.06
+2025-03-07 10:21:52,288 - __main__ - INFO - Monthly payment at 5.0%: $1610.46
+2025-03-07 10:21:52,288 - __main__ - INFO - Monthly payment at 5.5%: $1703.37
+2025-03-07 10:21:52,288 - __main__ - INFO - Monthly payment at 6.0%: $1798.65
+2025-03-07 10:21:52,288 - __main__ - INFO - Cost to buy down from price 95 to 96: $-3000.00
+2025-03-07 10:21:52,288 - __main__ - INFO - Cost to buy down from price 96 to 97: $-3000.00
+2025-03-07 10:21:52,288 - __main__ - INFO - Cost to buy down from price 97 to 98: $-3000.00
+2025-03-07 10:21:52,288 - __main__ - INFO - Cost to buy down from price 98 to 99: $-3000.00
+2025-03-07 10:21:52,288 - __main__ - INFO - Cost to buy down from price 99 to 100: $-3000.00
+2025-03-07 10:21:52,288 - __main__ - INFO - Cost to buy down from price 100 to 101: $-3000.00
+2025-03-07 10:21:52,288 - __main__ - INFO - ROI for buying down from 3.5% to 3.0%: 32.93%
+2025-03-07 10:21:52,288 - __main__ - INFO - ROI for buying down from 4.0% to 3.5%: 34.04%
+2025-03-07 10:21:52,288 - __main__ - INFO - ROI for buying down from 4.5% to 4.0%: 35.12%
+2025-03-07 10:21:52,288 - __main__ - INFO - ROI for buying down from 5.0% to 4.5%: 36.16%
+2025-03-07 10:21:52,288 - __main__ - INFO - ROI for buying down from 5.5% to 5.0%: 37.16%
+2025-03-07 10:21:52,288 - __main__ - INFO - ROI for buying down from 6.0% to 5.5%: 38.11%
+2025-03-07 10:21:52,419 - __main__ - INFO - ✅ Test visualization saved to test_output/roi_test.png
+2025-03-07 10:21:52,419 - __main__ - INFO - 
+=== Test Results Summary ===
+2025-03-07 10:21:52,419 - __main__ - INFO - ❌ FAILED - Data Collection
+2025-03-07 10:21:52,419 - __main__ - INFO - ❌ FAILED - Data Validation
+2025-03-07 10:21:52,419 - __main__ - INFO - ❌ FAILED - Database Operations
+2025-03-07 10:21:52,419 - __main__ - INFO - ✅ PASSED - Basic Calculations
+2025-03-07 10:21:52,419 - __main__ - INFO - 
+⚠️ Some tests failed. Please review the logs for details.
+2025-03-07 10:25:14,506 - __main__ - INFO - === Starting Core Functionality Tests ===
+2025-03-07 10:25:14,507 - __main__ - INFO - 
+=== Testing Data Collection ===
+2025-03-07 10:25:14,507 - __main__ - INFO - Testing data collection...
+2025-03-07 10:25:14,507 - data_collector - INFO - Data sourced from Yahoo Finance. This tool is not affiliated with or endorsed by Yahoo Finance.
+
+This tool provides analysis for informational purposes only and does not constitute financial advice.
+
+While we strive for accuracy, we make no guarantees about the correctness of calculations or predictions.
+
+Last updated: 2025-03-07 10:25:14
+2025-03-07 10:25:14,507 - data_collector - ERROR - Data fetch failed: 'UserAgentRotator' object has no attribute 'get_random_ua'
+2025-03-07 10:25:14,507 - __main__ - ERROR - ❌ Data collection failed: No data returned
+2025-03-07 10:25:14,507 - __main__ - INFO - 
+=== Testing Data Validation ===
+2025-03-07 10:25:14,507 - __main__ - INFO - Testing data validation...
+2025-03-07 10:25:14,507 - data_collector - INFO - Data sourced from Yahoo Finance. This tool is not affiliated with or endorsed by Yahoo Finance.
+
+This tool provides analysis for informational purposes only and does not constitute financial advice.
+
+While we strive for accuracy, we make no guarantees about the correctness of calculations or predictions.
+
+Last updated: 2025-03-07 10:25:14
+2025-03-07 10:25:14,507 - data_collector - ERROR - Data fetch failed: 'UserAgentRotator' object has no attribute 'get_random_ua'
+2025-03-07 10:25:14,507 - __main__ - ERROR - ❌ Data validation skipped: No data to validate
+2025-03-07 10:25:14,507 - __main__ - INFO - 
+=== Testing Database Operations ===
+2025-03-07 10:25:14,507 - __main__ - INFO - Testing database operations...
+2025-03-07 10:25:14,507 - __main__ - ERROR - Test failed with exception: name 'create_engine' is not defined
+2025-03-07 10:25:14,507 - __main__ - INFO - 
+=== Testing Basic Calculations ===
+2025-03-07 10:25:14,507 - __main__ - INFO - Testing basic mortgage calculations...
+2025-03-07 10:25:14,507 - __main__ - INFO - Monthly payment at 3.0%: $1264.81
+2025-03-07 10:25:14,507 - __main__ - INFO - Monthly payment at 3.5%: $1347.13
+2025-03-07 10:25:14,507 - __main__ - INFO - Monthly payment at 4.0%: $1432.25
+2025-03-07 10:25:14,507 - __main__ - INFO - Monthly payment at 4.5%: $1520.06
+2025-03-07 10:25:14,507 - __main__ - INFO - Monthly payment at 5.0%: $1610.46
+2025-03-07 10:25:14,507 - __main__ - INFO - Monthly payment at 5.5%: $1703.37
+2025-03-07 10:25:14,507 - __main__ - INFO - Monthly payment at 6.0%: $1798.65
+2025-03-07 10:25:14,507 - __main__ - INFO - Cost to buy down from price 95 to 96: $-3000.00
+2025-03-07 10:25:14,507 - __main__ - INFO - Cost to buy down from price 96 to 97: $-3000.00
+2025-03-07 10:25:14,507 - __main__ - INFO - Cost to buy down from price 97 to 98: $-3000.00
+2025-03-07 10:25:14,507 - __main__ - INFO - Cost to buy down from price 98 to 99: $-3000.00
+2025-03-07 10:25:14,507 - __main__ - INFO - Cost to buy down from price 99 to 100: $-3000.00
+2025-03-07 10:25:14,507 - __main__ - INFO - Cost to buy down from price 100 to 101: $-3000.00
+2025-03-07 10:25:14,507 - __main__ - INFO - ROI for buying down from 3.5% to 3.0%: 32.93%
+2025-03-07 10:25:14,507 - __main__ - INFO - ROI for buying down from 4.0% to 3.5%: 34.04%
+2025-03-07 10:25:14,507 - __main__ - INFO - ROI for buying down from 4.5% to 4.0%: 35.12%
+2025-03-07 10:25:14,507 - __main__ - INFO - ROI for buying down from 5.0% to 4.5%: 36.16%
+2025-03-07 10:25:14,507 - __main__ - INFO - ROI for buying down from 5.5% to 5.0%: 37.16%
+2025-03-07 10:25:14,507 - __main__ - INFO - ROI for buying down from 6.0% to 5.5%: 38.11%
+2025-03-07 10:25:14,636 - __main__ - INFO - ✅ Test visualization saved to test_output/roi_test.png
+2025-03-07 10:25:14,636 - __main__ - INFO - 
+=== Test Results Summary ===
+2025-03-07 10:25:14,636 - __main__ - INFO - ❌ FAILED - Data Collection
+2025-03-07 10:25:14,636 - __main__ - INFO - ❌ FAILED - Data Validation
+2025-03-07 10:25:14,636 - __main__ - INFO - ❌ FAILED - Database Operations
+2025-03-07 10:25:14,636 - __main__ - INFO - ✅ PASSED - Basic Calculations
+2025-03-07 10:25:14,636 - __main__ - INFO - 
+⚠️ Some tests failed. Please review the logs for details.
+2025-03-07 10:41:08,436 - __main__ - INFO - Initializing database...
+2025-03-07 10:41:08,443 - __main__ - INFO - Fetching MBB data...
+2025-03-07 10:41:08,443 - data_collector - INFO - Data sourced from Yahoo Finance. This tool is not affiliated with or endorsed by Yahoo Finance.
+
+This tool provides analysis for informational purposes only and does not constitute financial advice.
+
+While we strive for accuracy, we make no guarantees about the correctness of calculations or predictions.
+
+Last updated: 2025-03-07 10:41:08
+2025-03-07 10:41:08,443 - data_collector - ERROR - Data fetch failed: 'UserAgentRotator' object has no attribute 'get_random_ua'
+2025-03-07 10:41:08,443 - __main__ - ERROR - Failed to fetch data
+2025-03-07 10:42:18,017 - __main__ - INFO - Initializing database...
+2025-03-07 10:42:18,025 - __main__ - INFO - Fetching MBB data...
+2025-03-07 10:42:18,025 - data_collector - INFO - Data sourced from Yahoo Finance. This tool is not affiliated with or endorsed by Yahoo Finance.
+
+This tool provides analysis for informational purposes only and does not constitute financial advice.
+
+While we strive for accuracy, we make no guarantees about the correctness of calculations or predictions.
+
+Last updated: 2025-03-07 10:42:18
+2025-03-07 10:42:18,025 - data_collector - ERROR - Data fetch failed: download() got an unexpected keyword argument 'headers'
+2025-03-07 10:42:18,025 - __main__ - ERROR - Failed to fetch data
+2025-03-07 10:43:49,604 - __main__ - INFO - Initializing database...
+2025-03-07 10:43:49,612 - __main__ - INFO - Fetching MBB data...
+2025-03-07 10:43:49,612 - data_collector - INFO - Data sourced from Yahoo Finance. This tool is not affiliated with or endorsed by Yahoo Finance.
+
+This tool provides analysis for informational purposes only and does not constitute financial advice.
+
+While we strive for accuracy, we make no guarantees about the correctness of calculations or predictions.
+
+Last updated: 2025-03-07 10:43:49
+2025-03-07 10:43:50,090 - __main__ - INFO - Successfully fetched data with shape: (14, 6)
+2025-03-07 10:43:50,090 - __main__ - INFO - 
+Sample data:
+2025-03-07 10:43:50,094 - __main__ - INFO - 
+Processing data...
+2025-03-07 10:43:50,095 - __main__ - INFO - Processed 14 records
+2025-03-07 10:43:50,095 - __main__ - INFO - 
+Sample processed record:
+2025-03-07 10:43:50,095 - __main__ - INFO - 
+Updating database...
+2025-03-07 10:43:50,095 - data_collector - INFO - Data sourced from Yahoo Finance. This tool is not affiliated with or endorsed by Yahoo Finance.
+
+This tool provides analysis for informational purposes only and does not constitute financial advice.
+
+While we strive for accuracy, we make no guarantees about the correctness of calculations or predictions.
+
+Last updated: 2025-03-07 10:43:50
+2025-03-07 10:43:50,134 - data_retention - ERROR - Error enforcing data retention policy: Expected string or URL object, got Engine(sqlite:///mbs_data.db)
+2025-03-07 10:43:50,137 - data_collector - ERROR - Database insert failed: (sqlite3.IntegrityError) UNIQUE constraint failed: mbs_coupons.timestamp
+[SQL: INSERT INTO mbs_coupons (timestamp, open, high, low, close, volume) VALUES (?, ?, ?, ?, ?, ?)]
+[parameters: [('2025-03-07 13:00:00.000000', 93.39, 93.39, 93.39, 93.39, 0.0), ('2025-03-07 14:30:00.000000', 93.53500366210938, 93.5999984741211, 93.4749984741211, 93.4749984741211, 106724.0), ('2025-03-07 14:45:00.000000', 93.4800033569336, 93.4800033569336, 93.4000015258789, 93.4800033569336, 68741.0), ('2025-03-07 15:00:00.000000', 93.49500274658203, 93.51499938964844, 93.37000274658203, 93.43109893798828, 89498.0), ('2025-03-07 15:15:00.000000', 93.44000244140625, 93.49500274658203, 93.43219757080078, 93.44000244140625, 251113.0), ('2025-03-07 15:30:00.000000', 93.44509887695312, 93.59819793701172, 93.44499969482422, 93.53500366210938, 58721.0), ('2025-03-07 15:45:00.000000', 93.53500366210938, 93.53500366210938, 93.3501968383789, 93.43009948730469, 112353.0), ('2025-03-07 16:00:00.000000', 93.41500091552734, 93.45659637451172, 93.38500213623047, 93.43499755859375, 51362.0)  ... displaying 10 of 14 total bound parameter sets ...  ('2025-03-07 17:15:00.000000', 93.55999755859375, 93.56500244140625, 93.4749984741211, 93.48999786376953, 93194.0), ('2025-03-07 17:30:00.000000', 93.48500061035156, 93.51000213623047, 93.43000030517578, 93.47000122070312, 105668.0)]]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2025-03-07 10:43:50,137 - __main__ - INFO - Database update complete
+2025-03-07 10:44:45,972 - __main__ - INFO - Initializing database...
+2025-03-07 10:44:45,979 - __main__ - INFO - Fetching MBB data...
+2025-03-07 10:44:45,979 - data_collector - INFO - Data sourced from Yahoo Finance. This tool is not affiliated with or endorsed by Yahoo Finance.
+
+This tool provides analysis for informational purposes only and does not constitute financial advice.
+
+While we strive for accuracy, we make no guarantees about the correctness of calculations or predictions.
+
+Last updated: 2025-03-07 10:44:45
+2025-03-07 10:44:46,379 - __main__ - INFO - Successfully fetched data with shape: (14, 6)
+2025-03-07 10:44:46,379 - __main__ - INFO - 
+Sample data:
+2025-03-07 10:44:46,383 - __main__ - INFO - 
+Processing data...
+2025-03-07 10:44:46,384 - __main__ - INFO - Processed 14 records
+2025-03-07 10:44:46,384 - __main__ - INFO - 
+Sample processed record:
+2025-03-07 10:44:46,384 - __main__ - INFO - 
+Updating database...
+2025-03-07 10:44:46,385 - data_collector - INFO - Data sourced from Yahoo Finance. This tool is not affiliated with or endorsed by Yahoo Finance.
+
+This tool provides analysis for informational purposes only and does not constitute financial advice.
+
+While we strive for accuracy, we make no guarantees about the correctness of calculations or predictions.
+
+Last updated: 2025-03-07 10:44:46
+2025-03-07 10:44:46,461 - data_retention - INFO - Data retention policy enforced: 0 records deleted (older than 2023-03-08 10:44:46.460374)
+2025-03-07 10:44:46,461 - data_retention - ERROR - Error enforcing data retention policy: (sqlite3.OperationalError) cannot VACUUM from within a transaction
+[SQL: VACUUM]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-03-07 10:44:46,471 - data_collector - INFO - Database update complete: 2 records inserted, 12 records updated
+2025-03-07 10:44:46,471 - __main__ - INFO - Database update complete
+2025-03-07 10:45:25,100 - __main__ - INFO - Initializing database...
+2025-03-07 10:45:25,108 - __main__ - INFO - Fetching MBB data...
+2025-03-07 10:45:25,108 - data_collector - INFO - Data sourced from Yahoo Finance. This tool is not affiliated with or endorsed by Yahoo Finance.
+
+This tool provides analysis for informational purposes only and does not constitute financial advice.
+
+While we strive for accuracy, we make no guarantees about the correctness of calculations or predictions.
+
+Last updated: 2025-03-07 10:45:25
+2025-03-07 10:45:25,527 - __main__ - INFO - Successfully fetched data with shape: (15, 6)
+2025-03-07 10:45:25,527 - __main__ - INFO - 
+Sample data:
+2025-03-07 10:45:25,532 - __main__ - INFO - 
+Processing data...
+2025-03-07 10:45:25,534 - __main__ - INFO - Processed 15 records
+2025-03-07 10:45:25,534 - __main__ - INFO - 
+Sample processed record:
+2025-03-07 10:45:25,535 - __main__ - INFO - 
+Updating database...
+2025-03-07 10:45:25,535 - data_collector - INFO - Data sourced from Yahoo Finance. This tool is not affiliated with or endorsed by Yahoo Finance.
+
+This tool provides analysis for informational purposes only and does not constitute financial advice.
+
+While we strive for accuracy, we make no guarantees about the correctness of calculations or predictions.
+
+Last updated: 2025-03-07 10:45:25
+2025-03-07 10:45:25,600 - data_retention - INFO - Data retention policy enforced: 0 records deleted (older than 2023-03-08 10:45:25.599393)
+2025-03-07 10:45:25,608 - data_collector - INFO - Database update complete: 1 records inserted, 14 records updated
+2025-03-07 10:45:25,608 - __main__ - INFO - Database update complete
+2025-03-07 11:04:20,157 - data_collector - INFO - Data sourced from Yahoo Finance. This tool is not affiliated with or endorsed by Yahoo Finance.
+
+This tool provides analysis for informational purposes only and does not constitute financial advice.
+
+While we strive for accuracy, we make no guarantees about the correctness of calculations or predictions.
+
+Last updated: 2025-03-07 11:04:20
+2025-03-07 11:04:20,699 - data_retention - INFO - Data retention policy enforced: 0 records deleted (older than 2023-03-08 11:04:20.699145)
+2025-03-07 11:04:20,710 - data_collector - INFO - Database update complete: 1 records inserted, 15 records updated

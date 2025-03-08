@@ -342,3 +342,174 @@ class BuydownVisualizer:
         buf.seek(0)
         img_str = base64.b64encode(buf.read()).decode('utf-8')
         return img_str
+    
+    def plot_payback_comparison(self, data, figsize=(12, 8)):
+        """
+        Create a chart comparing payback periods for 1-point and 2-point buydowns
+        with visual indicators for good and bad deals
+        
+        Args:
+            data: DataFrame with historical buydown data
+            figsize: Figure size as (width, height) tuple
+            
+        Returns:
+            Matplotlib figure
+        """
+        fig, ax = plt.subplots(figsize=figsize)
+        
+        # Calculate payback periods
+        data['payback_years_1pt'] = data['buydown_cost_1pt'] / (data['monthly_savings_1pt'] * 12)
+        data['payback_years_2pt'] = data['buydown_cost_2pt'] / (data['monthly_savings_2pt'] * 12)
+        
+        # Create scatter plots with size based on rate reduction
+        scatter_1pt = ax.scatter(data['date'], data['payback_years_1pt'],
+                                c=data['rate_reduction_1pt'], cmap='RdYlGn_r',
+                                s=150, alpha=0.7, label='1-Point Buydown')
+        scatter_2pt = ax.scatter(data['date'], data['payback_years_2pt'],
+                                c=data['rate_reduction_2pt'], cmap='RdYlGn_r',
+                                s=150, alpha=0.7, label='2-Point Buydown')
+        
+        # Add reference lines and regions for deal quality
+        ax.axhspan(0, 1.0, color='g', alpha=0.1, label='Great Deal Zone')
+        ax.axhspan(1.0, 3.5, color='y', alpha=0.1, label='Good Deal Zone')
+        ax.axhspan(3.5, plt.ylim()[1], color='r', alpha=0.1, label='Bad Deal Zone')
+        
+        ax.axhline(y=3.5, color='r', linestyle='--', alpha=0.5, label='Max Good Deal (3.5 years)')
+        ax.axhline(y=1.0, color='g', linestyle='--', alpha=0.5, label='Great Deal (1 year)')
+        
+        # Customize the plot
+        ax.set_xlabel('Date')
+        ax.set_ylabel('Payback Period (Years)')
+        ax.set_title('Buydown Payback Period Comparison')
+        ax.grid(True, alpha=0.3)
+        
+        # Add colorbar to show rate reduction
+        cbar = plt.colorbar(scatter_1pt)
+        cbar.set_label('Rate Reduction (bps)')
+        
+        # Rotate date labels
+        plt.xticks(rotation=45)
+        
+        # Add legend with custom ordering
+        handles, labels = ax.get_legend_handles_labels()
+        order = [4, 5, 0, 1, 2, 3]  # Reorder to group zones and lines together
+        ax.legend([handles[i] for i in order], [labels[i] for i in order],
+                 bbox_to_anchor=(1.15, 1), loc='upper left')
+        
+        # Adjust layout to prevent label cutoff
+        plt.tight_layout()
+        
+        return fig
+    
+    def prepare_payback_data(self, data, loan_amount=300000):
+        """
+        Prepare data for payback period comparison visualization
+        
+        Args:
+            data: DataFrame with historical rate and price data
+            loan_amount: Loan amount for calculations
+            
+        Returns:
+            DataFrame with payback periods and rate reductions
+        """
+        result = []
+        
+        # Group by date
+        for date, group in data.groupby('date'):
+            # Sort rates from highest to lowest
+            sorted_rates = sorted(group['original_rate'].unique(), reverse=True)
+            sorted_prices = [group[group['original_rate'] == rate]['original_price'].iloc[0] for rate in sorted_rates]
+            
+            # Calculate for each rate (except the lowest)
+            for i in range(len(sorted_rates) - 1):
+                # Current rate and price
+                current_rate = sorted_rates[i]
+                current_price = sorted_prices[i]
+                
+                # Calculate 10bps increments
+                for j in range(1, min(len(sorted_rates) - i, 6)):  # Up to 50bps in 10bps increments
+                    target_rate = sorted_rates[i + j]
+                    target_price = sorted_prices[i + j]
+                    rate_reduction = (current_rate - target_rate) * 100  # Convert to basis points
+                    
+                    # Calculate for 1-point buydown
+                    buydown_cost_1pt = loan_amount * 0.01  # 1% of loan amount
+                    
+                    # Calculate for 2-point buydown
+                    buydown_cost_2pt = loan_amount * 0.02  # 2% of loan amount
+                    
+                    # Calculate monthly payment at both rates
+                    payment_current = self._calculate_monthly_payment(current_rate, loan_amount)
+                    payment_target = self._calculate_monthly_payment(target_rate, loan_amount)
+                    monthly_savings = payment_current - payment_target
+                    
+                    # Calculate payback periods
+                    payback_months_1pt = buydown_cost_1pt / monthly_savings if monthly_savings > 0 else float('inf')
+                    payback_months_2pt = buydown_cost_2pt / monthly_savings if monthly_savings > 0 else float('inf')
+                    
+                    # Determine deal quality based on rate reduction per point
+                    # Bad deal: 100bps for 0.25% reduction or less
+                    # Good deal: 100bps for 0.35% reduction or more
+                    # Great deal: Payback period of 1-3.5 years
+                    
+                    # For 1-point buydown
+                    reduction_per_point_1pt = rate_reduction / 1.0
+                    if reduction_per_point_1pt >= 35:  # 0.35% or more reduction per point
+                        deal_quality_1pt = 'Great' if payback_months_1pt/12 <= 3.5 else 'Good'
+                    elif reduction_per_point_1pt >= 25:  # 0.25% reduction per point
+                        deal_quality_1pt = 'Neutral'
+                    else:
+                        deal_quality_1pt = 'Bad'
+                    
+                    # For 2-point buydown
+                    reduction_per_point_2pt = rate_reduction / 2.0
+                    if reduction_per_point_2pt >= 35:  # 0.35% or more reduction per point
+                        deal_quality_2pt = 'Great' if payback_months_2pt/12 <= 3.5 else 'Good'
+                    elif reduction_per_point_2pt >= 25:  # 0.25% reduction per point
+                        deal_quality_2pt = 'Neutral'
+                    else:
+                        deal_quality_2pt = 'Bad'
+                    
+                    # Store results
+                    result.append({
+                        'date': date,
+                        'original_rate': current_rate,
+                        'target_rate': target_rate,
+                        'rate_reduction_1pt': rate_reduction,
+                        'rate_reduction_2pt': rate_reduction,
+                        'reduction_per_point_1pt': reduction_per_point_1pt,
+                        'reduction_per_point_2pt': reduction_per_point_2pt,
+                        'buydown_cost_1pt': buydown_cost_1pt,
+                        'buydown_cost_2pt': buydown_cost_2pt,
+                        'monthly_savings_1pt': monthly_savings,
+                        'monthly_savings_2pt': monthly_savings,
+                        'payback_months_1pt': payback_months_1pt,
+                        'payback_months_2pt': payback_months_2pt,
+                        'payback_years_1pt': payback_months_1pt / 12,
+                        'payback_years_2pt': payback_months_2pt / 12,
+                        'deal_quality_1pt': deal_quality_1pt,
+                        'deal_quality_2pt': deal_quality_2pt
+                    })
+        
+        return pd.DataFrame(result)
+    
+    def _calculate_monthly_payment(self, annual_rate, loan_amount, loan_term_years=30):
+        """
+        Calculate monthly mortgage payment
+        
+        Args:
+            annual_rate: Annual interest rate (decimal)
+            loan_amount: Loan principal amount
+            loan_term_years: Loan term in years
+            
+        Returns:
+            Monthly payment amount
+        """
+        loan_term_months = loan_term_years * 12
+        monthly_rate = annual_rate / 12
+        
+        if monthly_rate == 0:
+            return loan_amount / loan_term_months
+            
+        payment = (monthly_rate * loan_amount) / (1 - (1 + monthly_rate) ** -loan_term_months)
+        return payment

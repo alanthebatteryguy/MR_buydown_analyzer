@@ -5,24 +5,36 @@ def calculate_monthly_payment(rate, loan_amount, years=30):
     payment = (monthly_rate * loan_amount) / (1 - (1 + monthly_rate) ** -months)
     return payment
 
-def calculate_roi(loan_amount: float, original_rate: float, buydown_rate: float, 
-                 price_data: dict, date: str) -> dict:
-    """Calculate ROI for buydown between two rates"""
-    price1 = price_data.get(original_rate)
-    price2 = price_data.get(buydown_rate)
-    if price1 is None or price2 is None:
-        return {'roi_percent': 0, 'breakeven_months': 0}
+def calculate_roi(rate, loan_amount=300000, buydown_increment=0.25):
+    """Calculate ROI for a rate buydown
     
-    # Calculate buydown cost
-    cost = (price1 - price2) * loan_amount
+    Args:
+        rate: Current mortgage rate (can be a single value or from MBS data)
+        loan_amount: Loan amount in dollars (default: $300,000)
+        buydown_increment: How much to buy down the rate (default: 0.25%)
+        
+    Returns:
+        ROI percentage value
+    """
+    # If rate is already a percentage (e.g., 5.5), use as is
+    # If it's a price (e.g., 95.5), convert to rate using a simple model
+    if rate > 20:  # Likely a price, not a rate
+        original_rate = 100 / rate * 6  # Simple conversion model
+    else:
+        original_rate = rate
+    
+    buydown_rate = original_rate - buydown_increment
     
     # Calculate monthly payments
     monthly_pmt1 = calculate_monthly_payment(original_rate, loan_amount)
     monthly_pmt2 = calculate_monthly_payment(buydown_rate, loan_amount)
     monthly_savings = monthly_pmt1 - monthly_pmt2
     
-    # Calculate ROI and breakeven
-    roi = (monthly_savings * 12 / cost) * 100 if cost > 0 else 0
-    breakeven = (cost / monthly_savings) if monthly_savings > 0 else 0
+    # Calculate buydown cost (1 point = 1% of loan amount)
+    buydown_cost = buydown_increment * loan_amount
     
-    return {'roi_percent': roi, 'breakeven_months': breakeven}
+    # Calculate ROI
+    annual_savings = monthly_savings * 12
+    roi = (annual_savings / buydown_cost) * 100 if buydown_cost > 0 else 0
+    
+    return roi

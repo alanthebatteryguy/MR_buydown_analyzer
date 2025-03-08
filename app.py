@@ -2,7 +2,7 @@ from flask import Flask, render_template, jsonify, request, Response
 from sqlalchemy import create_engine, text, desc
 from sqlalchemy.orm import sessionmaker
 from data_collector import initialize_db, MBBCoupon
-from calculations import calculate_roi
+from calculations import calculate_roi, calculate_monthly_payment
 from visualization import BuydownVisualizer
 import pandas as pd
 from datetime import datetime, timedelta
@@ -178,13 +178,9 @@ def get_roi(loan_amount, original_rate, buydown_rate):
         # Get loan term from query parameter (default to 30 years)
         loan_term = int(request.args.get('term', 30))
         
-        # Convert rates from percentage to decimal
-        original_rate_decimal = original_rate / 100
-        buydown_rate_decimal = buydown_rate / 100
-        
-        # Calculate monthly payments
-        original_payment = calculate_monthly_payment(loan_amount, original_rate_decimal, loan_term)
-        buydown_payment = calculate_monthly_payment(loan_amount, buydown_rate_decimal, loan_term)
+        # Calculate monthly payments (rates are already in percentage form)
+        original_payment = calculate_monthly_payment(original_rate, loan_amount, loan_term)
+        buydown_payment = calculate_monthly_payment(buydown_rate, loan_amount, loan_term)
         
         # Calculate monthly savings
         monthly_savings = original_payment - buydown_payment
@@ -291,11 +287,21 @@ def calculate_monthly_payment(loan_amount, annual_rate, loan_term_years):
     payment = (monthly_rate * loan_amount) / (1 - (1 + monthly_rate) ** -loan_term_months)
     return payment
 
-def calculate_implied_rate(mbb_price):
-    # Derived from historical correlation analysis
-    base_rate = 2.5  # Minimum observed rate
-    price_ratio = (mbb_price - 90) / (120 - 90)  # Normalize 90-120 price range
-    return round(base_rate + (6.0 * price_ratio), 3)
+# Add this function definition after the imports and before the app initialization
+def calculate_implied_rate(price):
+    """Calculate implied interest rate from MBS price
+    
+    Args:
+        price: MBS price (e.g., 95.5)
+        
+    Returns:
+        Implied interest rate as a percentage
+    """
+    # Simple conversion model: higher price = lower rate
+    if price <= 0:
+        return 0
+    implied_rate = 100 / price * 6  # Simple conversion model
+    return implied_rate
 
 def process_natural_language_query(query):
     # Placeholder for NLP processing
@@ -315,6 +321,94 @@ def process_natural_language_query(query):
         return "The breakeven period is calculated by dividing the buydown cost by the monthly payment savings. You can use our calculator on the home page to get a personalized breakeven analysis."
     
     return "I'm sorry, I don't have enough information to answer that question yet. Please try a different query or check back later as our natural language capabilities are being enhanced."
+
+@app.route('/chat')
+def chat():
+    return render_template('chat.html')
+
+@app.route('/api/payback_comparison')
+def get_payback_comparison():
+    try:
+        # Get time range from query parameter (default to 1 month)
+        time_range = request.args.get('range', '1m')
+        loan_amount = float(request.args.get('loan_amount', 300000))
+        
+        # Calculate start date based on range
+        end_date = datetime.now()
+        if time_range == '1d':
+            start_date = end_date - timedelta(days=1)
+        elif time_range == '1w':
+            start_date = end_date - timedelta(weeks=1)
+        elif time_range == '1m':
+            start_date = end_date - timedelta(days=30)
+        elif time_range == '3m':
+            start_date = end_date - timedelta(days=90)
+        elif time_range == '1y':
+            start_date = end_date - timedelta(days=365)
+        else:
+            start_date = end_date - timedelta(days=30)
+        
+        # Query database
+        session = Session()
+        data = session.query(MBBCoupon).filter(
+            MBBCoupon.timestamp >= start_date
+        ).order_by(MBBCoupon.timestamp).all()
+        session.close()
+        
+        # Format data for analysis
+        formatted_data = []
+        for entry in data:
+            formatted_data.append({
+                'date': entry.timestamp,
+                'original_rate': calculate_implied_rate(entry.close),
+                'original_price': entry.close
+            })
+        
+        # Convert to DataFrame
+        df = pd.DataFrame(formatted_data)
+        
+        # Prepare data for payback period comparison
+        payback_data = visualizer.prepare_payback_data(df, loan_amount=loan_amount)
+        
+        # Format data for response
+        dates = [d.strftime('%Y-%m-%d') for d in payback_data['date'].unique()]
+        
+        # Get 1-point and 2-point buydown data
+        one_point_data = payback_data[payback_data['buydown_cost_1pt'] == loan_amount * 0.01]
+        two_point_data = payback_data[payback_data['buydown_cost_2pt'] == loan_amount * 0.02]
+        
+        # Calculate average payback periods by date
+        one_point_avg = one_point_data.groupby('date')['payback_years_1pt'].mean().reset_index()
+        two_point_avg = two_point_data.groupby('date')['payback_years_2pt'].mean().reset_index()
+        
+        # Format for response
+        one_point_values = [float(v) for v in one_point_avg['payback_years_1pt'].values]
+        two_point_values = [float(v) for v in two_point_avg['payback_years_2pt'].values]
+        
+        # Get deal quality metrics
+        good_deals = payback_data[payback_data['deal_quality'] == 'Good'].to_dict('records')
+        bad_deals = payback_data[payback_data['deal_quality'] == 'Bad'].to_dict('records')
+        
+        # Format deals for response
+        good_deals_formatted = [{
+            'from_rate': f"{d['original_rate']*100:.2f}%",
+            'to_rate': f"{d['target_rate']*100:.2f}%",
+            'points': 1 if d['buydown_cost_1pt'] == loan_amount * 0.01 else 2,
+            'reduction': f"{d['rate_reduction_1pt']/100:.2f}%",
+            'payback': f"{d['payback_years_1pt']:.1f} years"
+        } for d in good_deals[:5]]  # Top 5 good deals
+        
+        return jsonify({
+            'dates': dates,
+            'one_point_payback': one_point_values,
+            'two_point_payback': two_point_values,
+            'good_deals': good_deals_formatted,
+            'threshold_good': 3.5,  # Years threshold for good deal
+            'threshold_great': 1.0   # Years threshold for great deal
+        })
+    except Exception as e:
+        logger.error(f"Error generating payback comparison: {str(e)}")
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

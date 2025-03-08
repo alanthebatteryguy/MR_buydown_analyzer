@@ -28,6 +28,8 @@ def initialize_db():
     # Add connection test
     try:
         with engine.connect() as conn:
+            # Drop existing table if it exists
+            conn.execute(text("DROP TABLE IF EXISTS mbs_coupons"))
             conn.execute(text("SELECT 1"))
     except Exception as e:
         logger.error(f"Database connection failed: {str(e)}")

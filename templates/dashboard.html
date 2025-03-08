@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MR Buydown Analyzer - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.css">
+    <style>
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .chart-container {
+            height: 300px;
+            margin-bottom: 20px;
+        }
+        .data-table {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .stat-card {
+            text-align: center;
+            padding: 15px;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .stat-label {
+            font-size: 14px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">MR Buydown Analyzer</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/dashboard">Dashboard</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card bg-light">
+                    <div class="card-body stat-card">
+                        <div class="stat-value" id="currentPrice">$0.00</div>
+                        <div class="stat-label">Current MBB Price</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-light">
+                    <div class="card-body stat-card">
+                        <div class="stat-value" id="impliedRate">0.00%</div>
+                        <div class="stat-label">Implied Mortgage Rate</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-light">
+                    <div class="card-body stat-card">
+                        <div class="stat-value" id="dailyChange">0.00%</div>
+                        <div class="stat-label">24hr Change</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-light">
+                    <div class="card-body stat-card">
+                        <div class="stat-value" id="volume">0</div>
+                        <div class="stat-label">Volume</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">MBB Price History</h5>
+                        <div>
+                            <select class="form-select form-select-sm" id="timeRange">
+                                <option value="1d">1 Day</option>
+                                <option value="1w">1 Week</option>
+                                <option value="1m">1 Month</option>
+                                <option value="3m">3 Months</option>
+                                <option value="1y">1 Year</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="priceHistoryChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Rate Correlation</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="correlationChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Natural Language Query</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="nlQuery" placeholder="Ask a question about mortgage rates or buydowns...">
+                            <button class="btn btn-primary" type="button" id="queryBtn">Ask</button>
+                        </div>
+                        <div id="queryResult" class="p-3 border rounded d-none">
+                            <h6 class="mb-2">Answer:</h6>
+                            <div id="queryAnswer"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Recent Data</h5>
+                        <button class="btn btn-sm btn-light" id="exportDataBtn">Export Data</button>
+                    </div>
+                    <div class="card-body data-table">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Open</th>
+                                    <th>High</th>
+                                    <th>Low</th>
+                                    <th>Close</th>
+                                    <th>Volume</th>
+                                    <th>Implied Rate</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentData">
+                                <!-- Data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script>
+        // Initialize charts
+        const priceCtx = document.getElementById('priceHistoryChart').getContext('2d');
+        const priceHistoryChart = new Chart(priceCtx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'MBB Price',
+                    data: [],
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+        });
+
+        const corrCtx = document.getElementById('correlationChart').getContext('2d');
+        const correlationChart = new Chart(corrCtx, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'MBB Price vs Mortgage Rate',
+                    data: [],
+                    backgroundColor: 'rgba(75, 192, 192, 0.5)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'MBB Price'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Mortgage Rate (%)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Calculate implied rate from MBB price
+        function calculateImpliedRate(mbbPrice) {
+            // Derived from historical correlation analysis
+            const baseRate = 2.5;  // Minimum observed rate
+            const priceRatio = (mbbPrice - 90) / (120 - 90);  // Normalize 90-120 price range
+            return (baseRate + (6.0 * priceRatio)).toFixed(3);
+        }
+
+        // Format date for display
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+        }
+
+        // Fetch data based on time range
+        async function fetchData(timeRange = '1d') {
+            try {
+                const response = await fetch(`/api/mbb_data?range=${timeRange}`);
+                const data = await response.json();
+                
+                if (data && data.timestamps && data.prices) {
+                    // Update price history chart
+                    priceHistoryChart.data.labels = data.timestamps.map(formatDate);
+                    priceHistoryChart.data.datasets[0].data = data.prices;
+                    priceHistoryChart.update();
+                    
+                    // Update stats
+                    if (data.prices.length > 0) {
+                        const currentPrice = data.prices[data.prices.length - 1];
+                        const previousPrice = data.prices.length > 1 ? data.prices[data.prices.length - 2] : currentPrice;
+                        const priceChange = ((currentPrice - previousPrice) / previousPrice) * 100;
+                        
+                        document.getElementById('currentPrice').textContent = `$${currentPrice.toFixed(2)}`;
+                        document.getElementById('impliedRate').textContent = `${calculateImpliedRate(currentPrice)}%`;
+                        document.getElementById('dailyChange').textContent = `${priceChange.toFixed(2)}%`;
+                        document.getElementById('dailyChange').classList.remove('text-success', 'text-danger');
+                        document.getElementById('dailyChange').classList.add(priceChange >= 0 ? 'text-success' : 'text-danger');
+                        
+                        if (data.volumes && data.volumes.length > 0) {
+                            document.getElementById('volume').textContent = data.volumes[data.volumes.length - 1].toLocaleString();
+                        }
+                    }
+                    
+                    // Update correlation chart
+                    if (data.prices && data.rates) {
+                        const correlationData = data.prices.map((price, index) => ({
+                            x: price,
+                            y: data.rates[index]
+                        }));
+                        correlationChart.data.datasets[0].data = correlationData;
+                        correlationChart.update();
+                    }
+                    
+                    // Update recent data table
+                    if (data.full_data && data.full_data.length > 0) {
+                        const tableBody = document.getElementById('recentData');
+                        tableBody.innerHTML = '';
+                        
+                        data.full_data.forEach(item => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${formatDate(item.timestamp)}</td>
+                                <td>${item.open.toFixed(2)}</td>
+                                <td>${item.high.toFixed(2)}</td>
+                                <td>${item.low.toFixed(2)}</td>
+                                <td>${item.close.toFixed(2)}</td>
+                                <td>${item.volume.toLocaleString()}</td>
+                                <td>${calculateImpliedRate(item.close)}%</td>
+                            `;
+                            tableBody.appendChild(row);
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        // Handle time range change
+        document.getElementById('timeRange').addEventListener('change', (e) => {
+            fetchData(e.target.value);
+        });
+
+        // Handle natural language query
+        document.getElementById('queryBtn').addEventListener('click', async () => {
+            const query = document.getElementById('nlQuery').value.trim();
+            if (!query) return;
+            
+            try {
+                const response = await fetch('/api/query', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ query })
+                });
+                
+                const result = await response.json();
+                document.getElementById('queryAnswer').innerHTML = result.answer;
+                document.getElementById('queryResult').classList.remove('d-none');
+            } catch (error) {
+                console.error('Error processing query:', error);
+                document.getElementById('queryAnswer').innerHTML = 'Sorry, I could not process your query at this time.';
+                document.getElementById('queryResult').classList.remove('d-none');
+            }
+        });
+
+        // Handle export data button
+        document.getElementById('exportDataBtn').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/export_data');
+                const blob = await response.blob();
+                
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'mbb_data.csv';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } catch (error) {
+                console.error('Error exporting data:', error);
+                alert('Error exporting data. Please try again.');
+            }
+        });
+
+        // Load data on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchData('1d');
+        });
+    </script>
+</body>
+</html>
+                document.body.
